@@ -27,25 +27,18 @@
 }
 
 .sidebar {
-  height: 77vh;
-  width: 13%;
+  height: 70vh;
+  width: 20%;
   border: 1px solid black;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; */
   overflow: auto;
-  position: relative;
-  left: 0;
-  padding-bottom: 80px;
-}
-
-.apply-container {
-  position: fixed;
-  top: 70.8vh;
-  width: 12.9%;
+  padding-bottom: 30px;
 }
 
 .apply-btn {
+  width: 20%;
   display: flex;
   justify-content: center;
   padding-left: 0;
