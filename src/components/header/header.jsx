@@ -35,7 +35,7 @@ const Header = () => {
 
             <div className="search-container">
                 <button className="clear-search" onClick={() => setSearchQuery('')}>
-                    Clear Search <FontAwesomeIcon icon={faCircleXmark} style={{ marginLeft: '5%' }} />
+                    Clear Search <FontAwesomeIcon icon={faCircleXmark} style={{ marginLeft: '15%' }} />
                 </button>
 
                 <button className="Range-Search">
