@@ -1,3 +1,62 @@
-.MuiPaper-root{
-    margin-top:15%;
+.sort-menu,
+.filter-menu {
+  display: none;
+  text-align: center;
+}
+
+.sort-menu div,
+.filter-menu div {
+  border: 0.5px solid grey;
+}
+
+.show {
+  display: block;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  border-radius: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 15%;
+  font-size: 1.5rem;
+  border: 1px solid black;
+  background-color: rgb(100, 169, 249);
+}
+
+.sidebar {
+  height: 77vh;
+  width: 13%;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: auto;
+  position: relative;
+  left: 0;
+  padding-bottom: 80px;
+}
+
+.apply-container {
+  position: fixed;
+  top: 70.8vh;
+  width: 12.9%;
+}
+
+.apply-btn {
+  display: flex;
+  justify-content: center;
+  padding-left: 0;
+  background-color: blue;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(100, 169, 249);
+  border-radius: 50px;
 }
