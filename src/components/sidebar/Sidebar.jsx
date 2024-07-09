@@ -16,7 +16,6 @@ const Sidebar = () => {
   return (
     <div>
       <div className="sidebar">
-        <div>
           <button className="btn btn-primary sort" type="button" onClick={toggleSortMenu}>
             Sort <i className={`fa-solid ${sortMenuVisible ? 'fa-caret-up' : 'fa-caret-down'} sort-icon`}></i>
           </button>
@@ -48,11 +47,8 @@ const Sidebar = () => {
             <div>hi</div>
             <div>bye</div>
           </div>
-        </div>
-        <div className="apply-container">
-          <button className="btn btn-primary apply-btn" type="button">Apply</button>
-        </div>
       </div>
+      <button className="btn btn-primary apply-btn" type="button">Apply</button>
     </div>
   );
 };
