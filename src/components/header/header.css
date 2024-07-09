@@ -45,8 +45,20 @@
     border-color: #005eff;
     color: #fff;
     transform: scale(1.05);
+}
+
+.back{
+    margin-right:1em;
+}
+
+.lower{
+    border-right: 1px solid black;
+}
+.lower:focus{
+    border-right: 1px solid black;
 
 }
+
 
 .search-bar {
     padding: 5px 10px;

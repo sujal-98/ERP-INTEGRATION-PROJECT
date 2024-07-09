@@ -1,13 +1,15 @@
 import React, { useState, useRef } from 'react';
 import './header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark, faPlus,faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
     const inputRef = useRef(null);
     const [add, setAdd] = useState(false);
     const [enroll, setEnroll] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [range, setRange] = useState(false);
+
 
     const handleSearchChange = (event) => {
         if (event.target.value === "") {
@@ -29,6 +31,13 @@ const Header = () => {
         inputRef.current.value = '';
     };
 
+    const handleRangeClick=()=>{
+        if(!range){
+        setRange(true);}
+        else{
+            setRange(false)
+        }
+    }
     return (
         <header className="header">
             <h1 className="header-title">Report Analysis</h1>
@@ -38,26 +47,45 @@ const Header = () => {
                     Clear Search <FontAwesomeIcon icon={faCircleXmark} style={{ marginLeft: '15%' }} />
                 </button>
 
-                <button className="Range-Search">
-                    Range
-                </button>
-
-                <input
-                    type="text"
-                    className="search-bar"
-                    placeholder={`Enrollment Number... (${enroll.length > 0 ? enroll.length : ''})`}
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    ref={inputRef}
+                {(!range) ? (
+            <>
+              <button className="Range-Search" onClick={handleRangeClick}>
+                Range
+              </button>
+              <input
+                type="text"
+                className="search-bar"
+                placeholder="Enrollment Number..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                ref={inputRef}
+              />
+              {add ? (
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  style={{ color: 'black', zIndex: '2', cursor: 'pointer', position: 'absolute', marginLeft: '32.4%' }}
+                  onClick={() => handleAdd(searchQuery)}
                 />
-
-                {(add)? (
-                    <FontAwesomeIcon
-                        icon={faPlus}
-                        style={{ color: 'black', zIndex: '2', cursor: 'pointer', position: 'absolute', marginLeft: '32.4%' }}
-                        onClick={() => handleAdd(searchQuery)}
-                    />
-    ):null}
+              ) : null}
+            </>
+          ) : (
+            <>
+             <button className="back" onClick={handleRangeClick}>
+             <FontAwesomeIcon icon={faCircleArrowLeft} />
+             </button>
+              <input
+                type="text"
+                className="lower search-bar"
+                placeholder="Lower Range"
+              />
+              <input
+                type="text"
+                className="upper search-bar"
+                placeholder="Upper Range"
+                
+              />
+            </>
+          )}
 
                 <button className="search-button" onClick={handleSearch}>
                     Generate
