@@ -1,14 +1,15 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import './header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faPlus,faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios'
 
 const Header = () => {
-    const inputRef = useRef(null);
     const [add, setAdd] = useState(false);
-    const [enroll, setEnroll] = useState([]);
+    const [enroll, setEnroll] = useState(['0']);
     const [searchQuery, setSearchQuery] = useState('');
     const [range, setRange] = useState(false);
+
 
 
     const handleSearchChange = (event) => {
@@ -22,14 +23,25 @@ const Header = () => {
 
     const handleSearch = () => {
         console.log('Enroll Array:', enroll);
-        console.log('Search Query:', searchQuery);
+        console.log(enroll.length)
+        try{
+        const response=axios.post('http://localhost:1000/api/response', {
+          enroll: enroll.slice(1)
+      })
+      setEnroll(['0'])
+      }
+      catch{
+        console.log("error")
+      }
     };
 
     const handleAdd = (roll) => {
+      console.log("add")
         const updatedEnroll = [...enroll, roll];
         setEnroll(updatedEnroll);
-        inputRef.current.value = '';
-    };
+        console.log(enroll)
+        setSearchQuery('')
+      };
 
     const handleRangeClick=()=>{
         if(!range){
@@ -58,12 +70,11 @@ const Header = () => {
                 placeholder="Enrollment Number..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                ref={inputRef}
               />
               {add ? (
                 <FontAwesomeIcon
                   icon={faPlus}
-                  style={{ color: 'black', zIndex: '2', cursor: 'pointer', position: 'absolute', marginLeft: '29.5rem' }}
+                  style={{ color: 'black', zIndex: '2', cursor: 'pointer', position: 'absolute', marginLeft: '28.5rem' }}
                   onClick={() => handleAdd(searchQuery)}
                 />
               ) : null}

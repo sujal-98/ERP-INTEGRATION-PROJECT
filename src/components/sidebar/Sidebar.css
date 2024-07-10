@@ -42,7 +42,12 @@
   display: flex;
   justify-content: center;
   padding-left: 0;
-  background-color: blue;
+  background-color: rgb(114, 114, 211);
+  z-index:10;
+}
+
+.apply-btn:hover{
+  border:2px solid black;
 }
 
 ::-webkit-scrollbar {
