@@ -44,7 +44,7 @@ const Header = () => {
 
             <div className="search-container">
                 <button className="clear-search" onClick={() => setSearchQuery('')}>
-                    Clear Search <FontAwesomeIcon icon={faCircleXmark} style={{ marginLeft: '15%' }} />
+                    Clear Search <FontAwesomeIcon icon={faCircleXmark} />
                 </button>
 
                 {(!range) ? (
@@ -71,7 +71,7 @@ const Header = () => {
           ) : (
             <>
              <button className="back" onClick={handleRangeClick}>
-             <FontAwesomeIcon icon={faCircleArrowLeft} />
+             <FontAwesomeIcon icon={faCircleArrowLeft} id='arrowLeft' />
              </button>
               <input
                 type="text"
