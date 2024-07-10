@@ -38,8 +38,8 @@
     align-items: center;
     justify-content:center;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    
 }
+
 .Range-Search:hover{
     background-color: #006aff;
     border-color: #005eff;
@@ -67,6 +67,7 @@
     height: 100%;
     color:black;
     flex: 1;
+    border-radius: 20px 0 0 20px;
 }
 
 .search-bar:focus{
@@ -80,11 +81,14 @@
     border:0.5 solid;
     background-color: #55ff00;
     cursor: pointer;
-    border-radius: 0 4px 4px 0;
+    border-radius: 0 20px 20px 0;
     height: 100%;
+    border:1px solid black;
 }
 
-
+#upper-range{
+    border-radius:0;
+}
 
 .clear-search {
     padding: 10px;
