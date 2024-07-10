@@ -89,7 +89,6 @@
 .clear-search {
     padding: 10px;
     margin-right: 3%;
-    width:10em;
     font-size: 1em;
     border: none;
     background-color: rgba(247, 54, 54, 0.732);
@@ -97,8 +96,9 @@
     cursor: pointer;
     border-radius: 4px;
     height: 90%;
-    width: 190px;
+    width: 175px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
@@ -111,4 +111,7 @@
     border: 1px solid #ff0000; /* Add border */
 }
 
+#arrowLeft{
+    font-size: x-large;
+}
 
