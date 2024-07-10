@@ -63,7 +63,7 @@ const Header = () => {
               {add ? (
                 <FontAwesomeIcon
                   icon={faPlus}
-                  style={{ color: 'black', zIndex: '2', cursor: 'pointer', position: 'absolute', marginLeft: '32.4%' }}
+                  style={{ color: 'black', zIndex: '2', cursor: 'pointer', position: 'absolute', marginLeft: '29.5rem' }}
                   onClick={() => handleAdd(searchQuery)}
                 />
               ) : null}
