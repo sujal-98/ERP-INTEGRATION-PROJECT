@@ -73,12 +73,25 @@ input[type='radio']:active{
   border:1px solid red;
 }
 
-label{
+.sort-label{
   cursor: pointer;
-  margin-left:35%;
+  margin-left:28%;
 }
 
 .options.selected {
-  border:0;
-  border: 2px solid orange; /* Added CSS for selected option */
+  background-color:rgb(255, 214, 139); /* Added CSS for selected option */
+}
+
+.filter-option{
+  padding-left: 5%;
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  padding-right: 5%;
+  height:2rem;
+  font-size: 1.1rem;
+}
+
+.filter-option.filter-selected {
+  background-color:rgb(255, 214, 139); /* Added CSS for selected filter option */
 }
