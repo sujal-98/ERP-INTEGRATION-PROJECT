@@ -4,7 +4,7 @@ import './Main.css';
 
 const Card = ({ student }) => {
   return (
-    <div className='card'>
+    <div className='card' style={{display:'none'}}>
       <img src="/assets/photo1.jpg" alt={`${student.name}`} />
       <p>
         {student.name}<br />

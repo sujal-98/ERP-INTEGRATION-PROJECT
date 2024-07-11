@@ -1,8 +1,6 @@
 .cards-container {
-  position: absolute;
-  width: 79%;
-  top: 10rem;
-  margin-left: 16rem;
+  width:78%;
+  margin:-36rem 1% 0 21%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
@@ -36,4 +34,53 @@
 
 .card:hover img {
   filter: brightness(115%); /* Slightly dim the image on hover */
+}
+
+.emojicontainer{
+  display:flex;
+  align-items:center;
+  justify-content:space-evenly;
+  height:70vh;
+  width:70rem;
+}
+
+#text{
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+
+
+#text {
+  font-family: monospace;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 0.15em solid rgb(0, 0, 0); /* Blinking cursor */
+  animation: typing 6s steps(30, end), blink-caret 0.75s infinite;
+  animation-iteration-count: infinite;
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  60%{
+    width: 42%;
+  }
+  80% {
+    width: 42%;
+  }
+  100%{
+    width:0;
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: rgb(0, 0, 0);
+  }
 }
