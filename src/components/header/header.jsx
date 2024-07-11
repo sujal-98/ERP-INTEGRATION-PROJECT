@@ -15,7 +15,15 @@ const Header = () => {
     }
     const valid2=(enroll)=>{
       if(enroll.enroll.length===0){
-
+        if(enroll.lower>0 && enroll.upper>0){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }
+      else{
+        return true;
       }
     }
 
@@ -32,10 +40,13 @@ const Header = () => {
         console.log('Enroll Array:', enroll);
         console.log('Search Query:', searchQuery);
         try {
+          if(valid2(enroll)){
           const response = await axios.post('http://localhost:1000/api/response', {
             enroll: enroll
           });
           console.log(response.data);
+          setEnroll({"enroll":[],"lower":0, "upper":0})
+        }
         } catch (error) {
           console.error('Error posting data:', error);
         }
