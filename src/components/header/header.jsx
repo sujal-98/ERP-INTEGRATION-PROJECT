@@ -2,14 +2,22 @@ import React, { useState, useRef } from 'react';
 import './header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faPlus,faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios'
 
 const Header = () => {
-    const inputRef = useRef(null);
     const [add, setAdd] = useState(false);
-    const [enroll, setEnroll] = useState([]);
+    const [enroll, setEnroll] = useState({"enroll":[],"lower":0, "upper":0});
     const [searchQuery, setSearchQuery] = useState('');
-    const [range, setRange] = useState(false);
+    const [range,setRange]=useState(false)
 
+    const valid=(roll)=>{
+      return typeof roll === 'number' && typeof val==='NaN';
+    }
+    const valid2=(enroll)=>{
+      if(enroll.enroll.length===0){
+
+      }
+    }
 
     const handleSearchChange = (event) => {
         if (event.target.value === "") {
@@ -20,15 +28,52 @@ const Header = () => {
         setSearchQuery(event.target.value);
     };
 
-    const handleSearch = () => {
+    const handleSearch =async () => {
         console.log('Enroll Array:', enroll);
         console.log('Search Query:', searchQuery);
+        try {
+          const response = await axios.post('http://localhost:1000/api/response', {
+            enroll: enroll
+          });
+          console.log(response.data);
+        } catch (error) {
+          console.error('Error posting data:', error);
+        }
     };
 
     const handleAdd = (roll) => {
-        const updatedEnroll = [...enroll, roll];
+      const val = parseInt(roll, 10);
+      if (valid(val)) {
+        const updatedEnroll = { 
+          ...enroll, 
+          enroll: [...enroll.enroll, val] 
+        };
         setEnroll(updatedEnroll);
-        inputRef.current.value = '';
+        setSearchQuery('');
+        console.log(updatedEnroll.enroll);
+      } else {
+        console.log("Enter valid roll");
+      }
+    };
+  
+    const handleRangeQuery = (event) => {
+      const value = parseInt(event.target.value, 10);
+      if (valid(value)) {
+        if (event.target.className === "lower") {
+          setEnroll((prevEnroll) => ({
+            ...prevEnroll,
+            lower: value
+          }));
+        } else if (event.target.className === "upper") {
+          setEnroll((prevEnroll) => ({
+            ...prevEnroll,
+            upper: value
+          }));
+        }
+        console.log(enroll);
+      } else {
+        console.log("Enter a valid number");
+      }
     };
 
     const handleRangeClick=()=>{
@@ -58,7 +103,6 @@ const Header = () => {
                 placeholder="Enrollment Number..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                ref={inputRef}
               />
               {add ? (
                 <FontAwesomeIcon
@@ -77,12 +121,14 @@ const Header = () => {
                 type="text"
                 className="lower search-bar"
                 placeholder="Lower Range"
+                onChange={handleRangeQuery}
               />
               <input
                 type="text"
                 className="upper search-bar"
                 placeholder="Upper Range"
                 id='upper-range'
+                onChange={handleRangeQuery}
               />
             </>
           )}
