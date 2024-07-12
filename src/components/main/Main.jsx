@@ -1,24 +1,31 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Unstable_Grid2";
-import students from "../../resources/cardinfo";
+import { connect } from "react-redux";
 import Card from "./card";
 import "./Main.css";
 
-const Main = () => {
+const Main = ({ students }) => {
   return (
     <div className="cards-container">
-      {students.map((student, index) => (
-        <Card key={index} student={student} />
-      ))}
-      <div className="emojicontainer">
-        <div className="emoji">
-          <img src="/assets/panda.gif" alt="panda" />
+      {students.length > 0 ? (
+        students.map((student, index) => (
+          <Card key={index} data={student} />
+        ))
+      ) : (
+        <div className="emojicontainer">
+          <div className="emoji">
+            <img src="/assets/panda.gif" alt="panda" />
+          </div>
+          <div id="text">Nothing to do ...</div>
         </div>
-        <div id="text">Nothing to do ...</div>
-      </div>
+      )}
     </div>
   );
 };
 
-export default Main;
+const mapStateToProps = (state) => {
+  return {
+    students: state.students, 
+  };
+};
+
+export default connect(mapStateToProps)(Main);

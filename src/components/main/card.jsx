@@ -2,14 +2,14 @@
 import React from 'react';
 import './Main.css';
 
-const Card = ({ student }) => {
+const Card = ({ data }) => {
   return (
-    <div className='card' style={{display:'none'}}>
-      <img src="/assets/photo1.jpg" alt={`${student.name}`} />
+    <div className='card'>
+      <img src="/assets/photo1.jpg" alt={`${data.student.name}`} />
       <p>
-        {student.name}<br />
-        {student.enrollmentNumber}<br />
-        {student.batchYear} ({student.branch})
+        {data.student.name}<br />
+        {data.student.rollno}<br />
+        {data.student.year} ({data.student.branch})
       </p>
     </div>
   );
