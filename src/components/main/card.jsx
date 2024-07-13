@@ -7,7 +7,7 @@ const Card = ({ data }) => {
     <div className='card'>
       <img src="/assets/photo1.jpg" alt={`${data.student.name}`} />
       <p>
-        {data.student.name}<br />
+        <b>{data.student.name}</b><br />
         {data.student.rollno}<br />
         {data.student.year} ({data.student.branch})
       </p>
