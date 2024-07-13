@@ -29,7 +29,7 @@ async function showData(table,second) {
 async function showTables() {
     try {
       const [results, metadata] = await sequelize.query("SHOW TABLES");
-      console.log('Tables in the database:');
+      console.log('Tables in the database:',results);
       results.forEach(table => {
         console.log(table[`Tables_in_${process.env.database}`]);
         showData(table[`Tables_in_${process.env.database}`])
@@ -119,37 +119,31 @@ async function generateRollNumbers(start, end) {
   return rollNumbers;
 }
 
-async function insertData2() {
+
+const insertData2 = async () => {
   try {
-    // await Student.create({
-    //   rollno:820802722,
-    //   name:"Rohan",
-    //   branch:"CSE",
-    //   year:2022
-    // })
-      await Marks.create({
-        rollno: 920802722,
-        semester: 1, 
-        subject1: 76,
-        subject2: 85,
-        subject3:69,
-        subject4: 84,
-        subject5: 88,
-        subject6: 77,
-        subject7: 86,
-        subject8: 65,
-        subject9: 74,
-        subject10:64,
-        cgpa: 8.6 
-      });
+    await Marks.create({
+      rollno: 1120802722,
+      semester: 2,
+      subject1: 56,
+      subject2: 85,
+      subject3: 89,
+      subject4: 88,
+      subject5: 78,
+      subject6: 77,
+      subject7: 76,
+      subject8: 75,
+      subject9: 74,
+      subject10:74,
+      cgpa: 8.4    });
     console.log('Data inserted successfully');
   } catch (error) {
     console.error('Error encountered:', error.message);
-  }
-}
+  }}
 
 
   async function startServer() {
+    // showTables()
     // emptyTables();
     // showData('marks','students')
     // insertData2();

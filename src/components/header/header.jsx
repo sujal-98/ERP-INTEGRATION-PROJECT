@@ -44,6 +44,7 @@ const Header = () => {
         const response = await axios.post('http://localhost:1000/api/response', {
           enroll: enroll,
         });
+        console.log("response fetched")
         console.log(response.data);
         dispatch(setStudents(response.data)); 
         setEnroll({ enroll: [], lower: 0, upper: 0 });

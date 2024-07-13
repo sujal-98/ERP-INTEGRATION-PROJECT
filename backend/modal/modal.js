@@ -44,7 +44,7 @@ const Marks = sequelize.define('Mark', {
   semester: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    unique:true
+    unique:false
   },
   
   subject1: {
