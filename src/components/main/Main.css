@@ -84,3 +84,31 @@
     border-color: rgb(0, 0, 0);
   }
 }
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  margin-left: 20%;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: none;
+  height:2.5rem;
+  width:2.5rem;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.pagination button.active {
+  background-color: #85f758;
+  color: white;
+}
+
+.pagination button:hover {
+  background-color: #e0e0e0;
+}

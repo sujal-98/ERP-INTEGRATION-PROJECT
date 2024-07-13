@@ -35,6 +35,7 @@
   justify-content: space-between; */
   overflow: auto;
   padding-bottom: 30px;
+  margin-bottom:0;
 }
 
 .apply-btn {
@@ -94,4 +95,8 @@ input[type='radio']:active{
 
 .filter-option.filter-selected {
   background-color:rgb(255, 214, 139); /* Added CSS for selected filter option */
+}
+
+select{
+  cursor: pointer;
 }
