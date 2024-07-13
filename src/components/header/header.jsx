@@ -72,13 +72,13 @@ const Header = () => {
   const handleRangeQuery = (event) => {
     const val = parseInt(event.target.value, 10);
     if (true) {
-      if (event.target.className === 'lower') {
+      if (event.target.className.includes('lower')) {
         const updatedLower = {
           ...enroll,
           lower: val,
         };
         setEnroll(updatedLower);
-      } else if (event.target.className === 'upper') {
+      } else if (event.target.className.includes('upper')) {
         const updatedUpper = {
           ...enroll,
           upper: val,
@@ -104,8 +104,11 @@ const Header = () => {
       <h1 className="header-title">Report Analysis</h1>
 
       <div className="search-container">
+        {(enroll.enroll.length>0)?<div className="enroll-counter" style={{transition:'all 1s ease-in'}}>{enroll.enroll.length}</div>:null}
+        
         <button className="clear-search" onClick={() => setSearchQuery('')}>
-          Clear Search <FontAwesomeIcon icon={faCircleXmark} />
+          Clear Search
+          <FontAwesomeIcon icon={faCircleXmark} />
         </button>
 
         {!range ? (
@@ -123,7 +126,7 @@ const Header = () => {
             {add ? (
               <FontAwesomeIcon
                 icon={faPlus}
-                style={{ color: 'black', zIndex: '2', cursor: 'pointer', position: 'absolute', right: '8.5rem' }}
+                style={{ color: 'black', zIndex: '2', cursor: 'pointer', position: 'absolute', right: '7.2rem' }}
                 onClick={() => handleAdd(searchQuery)}
               />
             ) : null}

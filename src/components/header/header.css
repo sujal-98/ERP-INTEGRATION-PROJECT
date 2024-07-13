@@ -6,8 +6,8 @@
     background-color: rgb(255, 255, 255); /* White with 80% opacity */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    padding: 10px 20px;
-    height: 70px;
+    padding: 15px 20px;
+    height: 80px;
     margin-top:97px;
 }
 
@@ -119,3 +119,22 @@
     font-size: x-large;
 }
 
+
+.search-container {
+    /* Your existing styles */
+    position: relative;
+  }
+
+  .enroll-counter {
+    position: absolute;
+    top:-1rem;
+    left:17rem;
+    font-size: 0.8rem;
+    color: #333;
+    font-weight: bold;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 50%;
+    padding: 5px 10px;
+    z-index: 1;
+  }
