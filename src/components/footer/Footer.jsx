@@ -173,14 +173,14 @@ function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="playstore.png" alt="Play Store" className="w-10 h-auto" />
+            <img src="/assets/playstore.png" alt="Play Store" className="w-10 h-auto" />
           </a>
           <a
             href="https://www.apple.com/app-store/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="Appstore.png" alt="App Store" className="w-10 h-auto" />
+            <img src="/assets/Appstore.png" alt="App Store" className="w-18 h-10" />
           </a>
         </div>
       </div>
