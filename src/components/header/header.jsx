@@ -100,6 +100,7 @@ const Header = () => {
       const upper = parseInt(upperRef.current.value, 10);
   
       if (lower > 0 && upper > 0 && lower <= upper) {
+        dispatch(setStudents([]));
         const enrollments = [];
         for (let roll = lower; roll <= upper; roll += 100000000) {
           enrollments.push(roll);
