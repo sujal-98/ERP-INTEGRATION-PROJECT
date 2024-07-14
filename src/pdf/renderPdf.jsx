@@ -1,5 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Image, pdf } from '@react-pdf/renderer';
+import { saveAs } from 'file-saver';
 
 // Create styles
 const styles = StyleSheet.create({
@@ -103,7 +104,6 @@ const defaultData = {
 
 // Render PDF document
 const StudentDataPDF = ({ student }) => {
-  // Merge student data with default data
   const studentData = {
     ...defaultData,
     ...student,
@@ -116,8 +116,8 @@ const StudentDataPDF = ({ student }) => {
   };
 
   const charts = {
-    gradesPieChart: 'https://via.placeholder.com/150', // Placeholder image URL
-    attendancePieChart: 'https://via.placeholder.com/150', // Placeholder image URL
+    gradesPieChart: 'https://via.placeholder.com/150',
+    attendancePieChart: 'https://via.placeholder.com/150',
   };
 
   return (
@@ -228,15 +228,14 @@ const StudentDataPDF = ({ student }) => {
   );
 };
 
-export const generatePdf = async (student) => {
+export const generatePdfUrl = async (student) => {
   const blob = await pdf(<StudentDataPDF student={student} />).toBlob();
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${student.name}_report.pdf`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  return URL.createObjectURL(blob);
+};
+
+export const downloadPdf = async (student) => {
+  const blob = await pdf(<StudentDataPDF student={student} />).toBlob();
+  saveAs(blob, `${student.name}_report.pdf`);
 };
 
 export default StudentDataPDF;
