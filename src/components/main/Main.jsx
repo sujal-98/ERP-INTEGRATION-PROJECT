@@ -32,7 +32,7 @@ const Main = ({ students }) => {
         </div>
       )}
       </div>
-      {/* Pagination Controls */}
+
       {totalPages > 1 && (
         <div className="pagination">
           {currentPage > 1 && (

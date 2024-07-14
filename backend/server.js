@@ -14,22 +14,21 @@ app.use(express.json());
 //Routes
 app.use('/api', routes);
 
-async function showData(table,second) {
+async function showData(table) {
     try {
       const [results, metadata] = await sequelize.query(`select * from ${table}`);
       console.log(`Tables in the ${table} is: `,results)
-      const [results2, metadata2] = await sequelize.query(`select * from ${second}`);
-      console.log(`Tables in the ${second} is: `,results2)
     } catch (error) {
       console.error('Error querying database:', error);
     }
   }
 
 
+  
+
 async function showTables() {
     try {
       const [results, metadata] = await sequelize.query("SHOW TABLES");
-      console.log('Tables in the database:',results);
       results.forEach(table => {
         console.log(table[`Tables_in_${process.env.database}`]);
         showData(table[`Tables_in_${process.env.database}`])
@@ -143,7 +142,7 @@ const insertData2 = async () => {
 
 
   async function startServer() {
-    // showTables()
+    showTables()
     // emptyTables();
     // showData('marks','students')
     // insertData2();

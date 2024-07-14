@@ -6,22 +6,10 @@ const sequelize =require('../database/database')
 
 Router.post('/response', async (req, res) => {
   console.log(req.body.enroll);
-  const enroll = req.body.enroll.enroll || [];
+  const roll = req.body.enroll;
   const result = [];
 
-  if (enroll.length === 0) {
-    let lower = req.body.enroll.lower;
-    const upper = req.body.enroll.upper;
-    console.log(lower,upper)
-    while (lower <= upper) {
-      console.log(lower)
-      enroll.push(lower);
-      lower=lower+100000000;
-    }
-  }
-
   try {
-    const promises = enroll.map(async (roll) => {
       const [data] = await sequelize.query(
         `SELECT * FROM students WHERE rollno = ${roll}`      );
       const [data2] = await sequelize.query(
@@ -48,19 +36,13 @@ Router.post('/response', async (req, res) => {
             cgpa: record.cgpa
           };
         });
-
         rec.student.result = semesters;
         console.log('Transformed Data:', rec);
       } else {
         rec.student = { roll: "N/A" };
         console.log('Transformed Data:', rec);
       }
-
-      result.push(rec);
-    });
-
-    await Promise.all(promises);
-
+    result.push(rec);
     return res.status(200).send(result);
   } catch (error) {
     console.error('Error querying database:', error);
