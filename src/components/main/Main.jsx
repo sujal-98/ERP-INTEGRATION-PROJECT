@@ -1,11 +1,20 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Card from "./card";
 import "./Main.css";
 
-const Main = ({ students }) => {
+const Main = () => {
+  const students = useSelector((state) => state.students);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 20;
+
+  // Adjust current page if students length changes
+  useEffect(() => {
+    const totalPages = Math.ceil(students.length / cardsPerPage);
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages > 0 ? totalPages : 1);
+    }
+  }, [students, currentPage, cardsPerPage]);
 
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
@@ -18,19 +27,19 @@ const Main = ({ students }) => {
 
   return (
     <>
-    <div className="cards-container">
-      {currentCards.length > 0 ? (
-        currentCards.map((student, index) => (
-          <Card key={index} data={student} />
-        ))
-      ) : (
-        <div className="emojicontainer">
-          <div className="emoji">
-            <img src="/assets/panda.gif" alt="panda" />
+      <div className="cards-container">
+        {currentCards.length > 0 ? (
+          currentCards.map((student, index) => (
+            <Card key={index} data={student} />
+          ))
+        ) : (
+          <div className="emojicontainer">
+            <div className="emoji">
+              <img src="/assets/panda.gif" alt="panda" />
+            </div>
+            <div id="text">Nothing to do ...</div>
           </div>
-          <div id="text">Nothing to do ...</div>
-        </div>
-      )}
+        )}
       </div>
 
       {totalPages > 1 && (
@@ -52,15 +61,8 @@ const Main = ({ students }) => {
           )}
         </div>
       )}
-
     </>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    students: state.students,
-  };
-};
-
-export default connect(mapStateToProps)(Main);
+export default Main;

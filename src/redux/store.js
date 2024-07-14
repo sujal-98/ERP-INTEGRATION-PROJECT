@@ -1,9 +1,10 @@
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import studentReducer from './reducers';
+import {thunk} from 'redux-thunk';
+
 
 const store = createStore(
   studentReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+applyMiddleware(thunk));
 
 export default store;

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faPlus, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import { setStudents } from '../../actions/index';
+import { setStudents,fetchStudents } from '../../actions/index';
 
 const Header = () => {
   const lowerRef = useRef(null);
@@ -70,6 +70,7 @@ const Header = () => {
 
           console.log(results)          
           dispatch(setStudents([...students, ...results.flat()]));
+          setEnroll({enroll:[]})
         }
 
       }
@@ -93,41 +94,23 @@ const Header = () => {
     }
   };
 
-  const handleRangeQuery = async () => {
-    const lower = parseInt(lowerRef.current.value, 10);
-    const upper = parseInt(upperRef.current.value, 10);
-
-    if (lower > 0 && upper > 0 && lower <= upper) {
-      const enrollments = [];
-      for (let roll = lower; roll <= upper; roll += 100000000) {
-        enrollments.push(roll);
+ 
+    const handleRangeQuery = () => {
+      const lower = parseInt(lowerRef.current.value, 10);
+      const upper = parseInt(upperRef.current.value, 10);
+  
+      if (lower > 0 && upper > 0 && lower <= upper) {
+        const enrollments = [];
+        for (let roll = lower; roll <= upper; roll += 100000000) {
+          enrollments.push(roll);
+        }
+  
+        dispatch(fetchStudents(enrollments));
+      } else {
+        console.log('Enter a valid number');
       }
-
-      const chunks = chunkArray(enrollments, 20);
-
-      for (const chunk of chunks) {
-        const promises = chunk.map(async (roll) => {
-          try {
-            const response = await axios.post('http://localhost:1000/api/response', {
-              enroll: [roll],
-            });
-            console.log("response fetched for roll:", roll);
-            return response.data;
-          } catch (error) {
-            console.error(`Error posting data for roll ${roll}:`, error);
-            return null;
-          }
-        });
-
-        const results = await Promise.all(promises);
-        const filteredResults = results.filter(result => result !== null);
-        
-        dispatch(setStudents([...students, ...filteredResults.flat()]));
-      }
-    } else {
-      console.log('Enter a valid number');
-    }
-  };
+    };
+  
 
   const handleRangeClick = () => {
     setRange(!range);

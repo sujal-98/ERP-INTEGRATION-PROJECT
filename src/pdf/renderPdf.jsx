@@ -115,7 +115,6 @@ const StudentDataPDF = ({ student }) => {
       : defaultData.academicRecords,
   };
 
-  // Dummy charts (replace with actual chart generation if needed)
   const charts = {
     gradesPieChart: 'https://via.placeholder.com/150', // Placeholder image URL
     attendancePieChart: 'https://via.placeholder.com/150', // Placeholder image URL
@@ -196,7 +195,6 @@ const StudentDataPDF = ({ student }) => {
           </View>
         </View>
 
-        {/* CGPA */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>CGPA</Text>
           <View style={styles.tableRow}>
@@ -205,7 +203,6 @@ const StudentDataPDF = ({ student }) => {
           </View>
         </View>
 
-        {/* Projects */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Projects</Text>
           {studentData.projects.map((project, index) => (
