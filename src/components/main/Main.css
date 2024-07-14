@@ -15,6 +15,7 @@
   background-color: #f9f9f9;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  height:300px;
 }
 
 .card img {
