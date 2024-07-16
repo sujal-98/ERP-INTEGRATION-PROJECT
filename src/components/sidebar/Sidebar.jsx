@@ -20,13 +20,14 @@ const Sidebar = () => {
 
   const handleSortClick = (option) => {
     setSelectedSort(option);
+    
   };
 
   return (
     <div>
       <div className="sidebar">
         <button
-          className="btn btn-primary sort"
+          className="btn sort"
           type="button"
           onClick={toggleSortMenu}
         >
@@ -112,7 +113,7 @@ const Sidebar = () => {
           </div>
         </div>
         <button
-          className="btn btn-primary filter"
+          className="btn filter"
           type="button"
           onClick={toggleFilterMenu}
         >
@@ -199,7 +200,7 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-      <button className="btn btn-primary apply-btn" type="button">
+      <button className="btn apply-btn" type="button">
         Apply
       </button>
     </div>
