@@ -27,7 +27,7 @@ const Main = () => {
 
   return (
     <>
-      <div className="cards-container" style={{minHeight:"80vh"}}>
+      <div className="cards-container" style={{minHeight:"70vh"}}>
         {currentCards.length > 0 ? (
           currentCards.map((student, index) => (
             <Card key={index} data={student} />

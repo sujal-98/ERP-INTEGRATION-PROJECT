@@ -1,14 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+*{
+    font-family: "Lora", serif;
+    font-weight: 500;
+    /* font-style: normal; */
+}
 /* header.css */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(255, 255, 255); /* White with 80% opacity */
+    background-color: #F3F6FB;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     padding: 15px 20px;
     height: 80px;
     margin-top:97px;
+    border:2px solid white;
 }
 
 .header-title {
@@ -20,15 +28,13 @@
     display: flex;
     align-items:center;
     height: 100%;
-    
-    
 }
 .Range-Search{
     padding-left: 0%;
     margin-right: 6%;
     font-size: 1em;
     border: none;
-    background-color: rgba(39, 37, 185, 0.796);
+    background-color: teal;
     color: rgb(255, 255, 255);
     cursor: pointer;
     border-radius: 4px;
@@ -41,9 +47,9 @@
 }
 
 .Range-Search:hover{
-    background-color: #006aff;
-    border-color: #005eff;
-    color: #fff;
+    background-color: rgb(33, 206, 206);
+    border-color: rgb(33, 206, 206);
+    color: black;
     transform: scale(1.05);
 }
 
@@ -65,9 +71,10 @@
     border:0.5px solid rgb(0, 0, 0);
     font-size: 1em;
     height: 100%;
-    color:black;
+    color:rgb(0, 0, 0);
     flex: 1;
     border-radius: 20px 0 0 20px;
+    background-color: white;
 }
 
 .search-bar:focus{
@@ -79,11 +86,17 @@
     padding: 0 20px;
     font-size: 1rem;
     border:0.5 solid;
-    background-color: #55ff00;
+    background-color: teal;
+    color:white;
     cursor: pointer;
     border-radius: 0 20px 20px 0;
     height: 100%;
     border:1px solid black;
+}
+
+.search-button:hover{
+    background-color: rgb(33, 206, 206);
+    color:black;
 }
 
 #upper-range{
