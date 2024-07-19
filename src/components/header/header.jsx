@@ -46,16 +46,18 @@ const Header = () => {
 
   const handleSearch = async () => {
     console.log('Enroll Array:', enroll);
+
     try {
       if (true) {
-          dispatch(fetchStudents(enroll));
+          dispatch(fetchStudents(enroll.enroll));
           setEnroll({enroll:[]})
         }
+
+      
     } catch (error) {
       console.error('Error posting data:', error);
     }
   };
-  
   const handleAdd = (roll) => {
     const val = parseInt(roll, 10);
     if (val > 0) {
