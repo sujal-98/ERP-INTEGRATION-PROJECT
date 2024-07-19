@@ -46,39 +46,16 @@ const Header = () => {
 
   const handleSearch = async () => {
     console.log('Enroll Array:', enroll);
-
     try {
-      if (valid2(enroll)) {
-        const chunks = chunkArray(enroll.enroll, 20);
-
-        for (const chunk of chunks) {
-          const promises = chunk.map(async (roll) => {
-            try {
-              const response = await axios.post('http://localhost:1000/api/response', {
-                enroll: [roll],
-              });
-              console.log("response fetched for roll:", roll);
-              return response.data;
-            } 
-            catch (error) {
-              console.error(`Error posting data for roll ${roll}:`, error);
-              return null;
-            }
-          });
-
-          const results = await Promise.all(promises);
-
-          console.log(results)          
-          dispatch(setStudents([...students, ...results.flat()]));
+      if (true) {
+          dispatch(fetchStudents(enroll));
           setEnroll({enroll:[]})
         }
-
-      }
     } catch (error) {
       console.error('Error posting data:', error);
     }
   };
-
+  
   const handleAdd = (roll) => {
     const val = parseInt(roll, 10);
     if (val > 0) {
@@ -95,22 +72,23 @@ const Header = () => {
   };
 
  
-    const handleRangeQuery = () => {
-      const lower = parseInt(lowerRef.current.value, 10);
-      const upper = parseInt(upperRef.current.value, 10);
-  
-      if (lower > 0 && upper > 0 && lower <= upper) {
-        dispatch(setStudents([]));
-        const enrollments = [];
-        for (let roll = lower; roll <= upper; roll += 100000000) {
-          enrollments.push(roll);
-        }
-  
-        dispatch(fetchStudents(enrollments));
-      } else {
-        console.log('Enter a valid number');
+ 
+  const handleRangeQuery = () => {
+    const lower = parseInt(lowerRef.current.value, 10);
+    const upper = parseInt(upperRef.current.value, 10);
+
+    if (lower > 0 && upper > 0 && lower <= upper) {
+      dispatch(setStudents([]));
+      const enrollments = [];
+      for (let roll = lower; roll <= upper; roll += 100000000) {
+        enrollments.push(roll);
       }
-    };
+
+      dispatch(fetchStudents(enrollments));
+    } else {
+      console.log('Enter a valid number');
+    }
+  };
   
 
   const handleRangeClick = () => {

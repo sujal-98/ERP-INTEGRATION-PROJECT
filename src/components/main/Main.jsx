@@ -8,7 +8,6 @@ const Main = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 20;
 
-  // Adjust current page if students length changes
   useEffect(() => {
     const totalPages = Math.ceil(students.length / cardsPerPage);
     if (currentPage > totalPages) {
@@ -27,7 +26,7 @@ const Main = () => {
 
   return (
     <>
-      <div className="cards-container" style={{minHeight:"70vh"}}>
+      <div className="cards-container" style={{ minHeight: "80vh" }}>
         {currentCards.length > 0 ? (
           currentCards.map((student, index) => (
             <Card key={index} data={student} />

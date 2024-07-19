@@ -1,7 +1,13 @@
 const express = require('express');
 const Router = express.Router();
 const sequelize =require('../database/database')
+const fs = require('fs');
+const path = require('path');
+const csv = require('csv-parser');
 
+
+//constants
+const path2='./result'
 
 
 Router.post('/response', async (req, res) => {
@@ -35,8 +41,12 @@ Router.post('/response', async (req, res) => {
             subject10: record.subject10,
             cgpa: record.cgpa
           };
+          totalCgpa += record.cgpa;
+          semesterCount += 1;
         });
+        const aggregateCgpa = semesterCount ? (totalCgpa / semesterCount).toFixed(3) : 0;
         rec.student.result = semesters;
+        rec.student.aggregateCgpa = aggregateCgpa;
         console.log('Transformed Data:', rec);
       } else {
         rec.student = { roll: "N/A" };
@@ -49,8 +59,64 @@ Router.post('/response', async (req, res) => {
     return res.status(500).json({ message: "error occurred" });
   }
 });
+const results = [];
 
+function parseCSVFile(filePath, rollNumber, callback) {
+  const results = [];
 
+  fs.createReadStream(filePath)
+    .pipe(csv())
+    .on('data', (data) => results.push(data))
+    .on('end', () => {
+      const studentDetails = results.filter(row => row.enrollment_number === rollNumber);
+      console.log(studentDetails)
+      if (studentDetails.length > 0) {
+        callback(null, studentDetails);
+      } else {
+        callback(`Roll number ${rollNumber} not found`, null);
+      }
+    })
+    .on('error', (err) => {
+      callback(err, null);
+    });
+}
+
+Router.post('/result', async (req, res) => {
+  const rollNumber = req.body.enroll;
+  const path2 = './result';
+  const results = []; 
+
+  fs.readdir(path2, async (err, files) => {
+    if (err) {
+      console.error(`Could not list the directory.`, err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    let count = 0;
+
+    files.forEach((file, index) => {
+      const filePath = path.join(path2, file);
+      parseCSVFile(filePath, rollNumber, (err, data) => {
+        if (err) {
+          console.error(`Error processing file ${file}:`, err);
+        } else {
+          if (data && data.length > 0) {
+            results.push(...data); 
+          }
+        }
+        count++;
+
+        if (count === files.length) {
+          if (results.length !== 0) {
+            res.status(201).json(results); 
+          } else {
+            res.status(404).json({ message: 'Data not found' }); 
+          }
+        }
+      });
+    });
+  });
+});
 
 module.exports = Router;
 

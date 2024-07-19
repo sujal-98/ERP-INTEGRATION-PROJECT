@@ -3,8 +3,8 @@ const app=express();
 const cors=require('cors')
 const dotenv=require('dotenv').config()
 const routes = require('./routes/fetcher');
-const sequelize = require('./database/database');
-const { Student, Marks } = require('./modal/modal');
+// const sequelize = require('./database/database');
+// const { Student, Marks } = require('./modal/modal');
 
 
 //middlewares
@@ -142,7 +142,7 @@ const insertData2 = async () => {
 
 
   async function startServer() {
-    showTables()
+    // showTables()
     // emptyTables();
     // showData('marks','students')
     // insertData2();
