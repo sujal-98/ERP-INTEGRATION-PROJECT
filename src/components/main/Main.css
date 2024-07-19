@@ -1,6 +1,6 @@
 .cards-container {
   width:80%;
-  margin:-35.4rem 0% 0 20%;
+  margin:0 0% 0 20%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
@@ -17,6 +17,10 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   height:312px;
+  font-size: 1rem;
+  white-space: nowrap;
+  /* overflow: hidden; */
+  text-overflow: ellipsis;
 }
 
 .card img {
@@ -36,6 +40,15 @@
 
 .card:hover img {
   filter: brightness(115%); /* Slightly dim the image on hover */
+}
+
+.icon{
+  color:teal;
+  font-size: 1.5rem;
+}
+
+.icon:hover{
+  color:rgb(33, 206, 206);
 }
 
 .emojicontainer{
@@ -85,10 +98,14 @@
 }
 
 .pagination {
-  margin-top: 20px;
+  /* margin-top: 20px; */
+  height:70px;
+  padding-bottom: 10px;
   display: flex;
   justify-content: center;
+  align-items: end;
   margin-left: 20%;
+  background-color: rgb(245, 244, 239);
 }
 
 .pagination button {
@@ -98,14 +115,13 @@
   height:2.5rem;
   width:2.5rem;
   border-radius: 50%;
-  background-color: #f0f0f0;
+  background-color: white;
   cursor: pointer;
   font-weight: 700;
 }
 
 .pagination button.active {
-  background-color: #85f758;
-  color: white;
+  background-color: rgb(33, 206, 206);
 }
 
 .pagination button:hover {
