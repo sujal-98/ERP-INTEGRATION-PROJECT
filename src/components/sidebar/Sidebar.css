@@ -35,8 +35,8 @@
 
 .sidebar {
   /* position: sticky; */
-  height: 70vh;
-  width: 20%;
+  height: 80vh;
+  width: 100%;
   border: 1px solid black;
   /* display: flex;
   flex-direction: column;
@@ -46,8 +46,14 @@
   background-color:rgb(245, 244, 239) ;
 }
 
-.apply-btn {
+.sidebar-container{
+  position:fixed;
+  top: 13.2%;
   width: 20%;
+}
+
+.apply-btn {
+  width: 100%;
   display: flex;
   justify-content: center;
   padding-left: 0;

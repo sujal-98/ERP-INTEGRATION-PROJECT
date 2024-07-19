@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
 
 const Sidebar = () => {
@@ -9,6 +9,7 @@ const Sidebar = () => {
   const [selectedBranch, setSelectedBranch] = useState(""); // State for selected branch
   const [selectedCGPA, setSelectedCGPA] = useState(""); // State for selected CGPA
   const [selectedSociety, setSelectedSociety] = useState(""); // State for selected society
+  const [sidebarStyle, setSidebarStyle] = useState({});
 
   const toggleSortMenu = () => {
     setSortMenuVisible(!sortMenuVisible);
@@ -20,31 +21,52 @@ const Sidebar = () => {
 
   const handleSortClick = (option) => {
     setSelectedSort(option);
-    
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const footer = document.getElementById("footer");
+      if (footer) {
+        const footerRect = footer.getBoundingClientRect();
+        const footerHeightInView = footerRect.height - (footerRect.bottom - window.innerHeight);
+        const sidebar = document.querySelector(".sidebar-container");
+        const sidebarHeight = sidebar.offsetHeight;
+        const offsetTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (footerRect.top <= window.innerHeight) {
+          const topPosition = offsetTop + window.innerHeight - footerHeightInView - sidebarHeight;
+          setSidebarStyle({
+            position: "absolute",
+            top: `${topPosition-70}px`,
+            width: "20%",
+          });
+        } else {
+          setSidebarStyle({
+            position: "fixed",
+            top: "13.2%",
+            width: "20%",
+          });
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div>
+    <div className="sidebar-container" style={sidebarStyle}>
       <div className="sidebar">
-        <button
-          className="btn sort"
-          type="button"
-          onClick={toggleSortMenu}
-        >
+        <button className="btn sort" type="button" onClick={toggleSortMenu}>
           Sort{" "}
           <i
-            className={`fa-solid ${
-              sortMenuVisible ? "fa-caret-up" : "fa-caret-down"
-            } sort-icon`}
+            className={`fa-solid ${sortMenuVisible ? "fa-caret-up" : "fa-caret-down"} sort-icon`}
           ></i>
         </button>
         <div className={`sort-menu ${sortMenuVisible ? "show" : ""}`}>
-          <div
-            className={`options ${
-              selectedOption === "ENROLLMENT" ? "selected" : ""
-            }`}
-            onClick={() => handleSortClick("ENROLLMENT")}
-          >
+          <div className={`options ${selectedOption === "ENROLLMENT" ? "selected" : ""}`} onClick={() => handleSortClick("ENROLLMENT")}>
             <input
               type="radio"
               id="enrollment"
@@ -53,15 +75,10 @@ const Sidebar = () => {
               checked={selectedOption === "ENROLLMENT"}
               onChange={() => setSelectedSort("ENROLLMENT")}
             />
-            <label htmlFor="enrollment" className="sort-label">
-              Enrollment No.
-            </label>
+            <label htmlFor="enrollment" className="sort-label">Enrollment No.</label>
             <br />
           </div>
-          <div
-            className={`options ${selectedOption === "CGPA" ? "selected" : ""}`}
-            onClick={() => handleSortClick("CGPA")}
-          >
+          <div className={`options ${selectedOption === "CGPA" ? "selected" : ""}`} onClick={() => handleSortClick("CGPA")}>
             <input
               type="radio"
               id="cgpa"
@@ -70,17 +87,10 @@ const Sidebar = () => {
               checked={selectedOption === "CGPA"}
               onChange={() => setSelectedSort("CGPA")}
             />
-            <label htmlFor="cgpa" className="sort-label">
-              CGPA
-            </label>
+            <label htmlFor="cgpa" className="sort-label">CGPA</label>
             <br />
           </div>
-          <div
-            className={`options ${
-              selectedOption === "Attendance" ? "selected" : ""
-            }`}
-            onClick={() => handleSortClick("Attendance")}
-          >
+          <div className={`options ${selectedOption === "Attendance" ? "selected" : ""}`} onClick={() => handleSortClick("Attendance")}>
             <input
               type="radio"
               id="attendance"
@@ -89,16 +99,9 @@ const Sidebar = () => {
               checked={selectedOption === "Attendance"}
               onChange={() => setSelectedSort("Attendance")}
             />
-            <label htmlFor="attendance" className="sort-label">
-              Attendance
-            </label>
+            <label htmlFor="attendance" className="sort-label">Attendance</label>
           </div>
-          <div
-            className={`options ${
-              selectedOption === "Achievements" ? "selected" : ""
-            }`}
-            onClick={() => handleSortClick("Achievements")}
-          >
+          <div className={`options ${selectedOption === "Achievements" ? "selected" : ""}`} onClick={() => handleSortClick("Achievements")}>
             <input
               type="radio"
               id="achievements"
@@ -107,29 +110,17 @@ const Sidebar = () => {
               checked={selectedOption === "Achievements"}
               onChange={() => setSelectedSort("Achievements")}
             />
-            <label htmlFor="achievements" className="sort-label">
-              Achievements
-            </label>
+            <label htmlFor="achievements" className="sort-label">Achievements</label>
           </div>
         </div>
-        <button
-          className="btn filter"
-          type="button"
-          onClick={toggleFilterMenu}
-        >
+        <button className="btn filter" type="button" onClick={toggleFilterMenu}>
           Filter{" "}
           <i
-            className={`fa-solid ${
-              filterMenuVisible ? "fa-caret-up" : "fa-caret-down"
-            } filter-icon`}
+            className={`fa-solid ${filterMenuVisible ? "fa-caret-up" : "fa-caret-down"} filter-icon`}
           ></i>
         </button>
         <div className={`filter-menu ${filterMenuVisible ? "show" : ""}`}>
-          <div
-            className={`filter-option ${
-              selectedBatch ? "filter-selected" : ""
-            }`}
-          >
+          <div className={`filter-option ${selectedBatch ? "filter-selected" : ""}`}>
             <label htmlFor="batch">Batch : </label>
             <select
               name="Batch"
@@ -144,11 +135,7 @@ const Sidebar = () => {
               <option value="2024-28">2024-28</option>
             </select>
           </div>
-          <div
-            className={`filter-option ${
-              selectedBranch ? "filter-selected" : ""
-            }`}
-          >
+          <div className={`filter-option ${selectedBranch ? "filter-selected" : ""}`}>
             <label htmlFor="branch">Branch : </label>
             <select
               name="Branch"
@@ -163,9 +150,7 @@ const Sidebar = () => {
               <option value="ECE">ECE</option>
             </select>
           </div>
-          <div
-            className={`filter-option ${selectedCGPA ? "filter-selected" : ""}`}
-          >
+          <div className={`filter-option ${selectedCGPA ? "filter-selected" : ""}`}>
             <label htmlFor="cgpa">CGPA : </label>
             <select
               name="CGPA"
@@ -180,11 +165,7 @@ const Sidebar = () => {
               <option value="below7">Below 7</option>
             </select>
           </div>
-          <div
-            className={`filter-option ${
-              selectedSociety ? "filter-selected" : ""
-            }`}
-          >
+          <div className={`filter-option ${selectedSociety ? "filter-selected" : ""}`}>
             <label htmlFor="society">Society : </label>
             <select
               name="Society"
@@ -200,9 +181,7 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-      <button className="btn apply-btn" type="button">
-        Apply
-      </button>
+      <button className="btn apply-btn" type="button">Apply</button>
     </div>
   );
 };
