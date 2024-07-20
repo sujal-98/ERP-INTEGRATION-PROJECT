@@ -3,7 +3,7 @@ import axios from 'axios';
 export const SET_STUDENTS = 'SET_STUDENTS';
 
 export const setStudents = (students) => ({
-  type: 'SET_STUDENTS',
+  type: SET_STUDENTS,
   payload: students,
 });
 
@@ -26,7 +26,7 @@ export const fetchStudents = (enrollments) => async (dispatch, getState) => {
         const response = await axios.post('http://localhost:1000/api/result', {
           enroll: String(roll),
         });
-        console.log('response fetched for roll:', roll);
+        console.log('Response fetched for roll:', roll, response.data);
         return response.data;
       } catch (error) {
         console.error(`Error posting data for roll ${roll}:`, error);
@@ -41,36 +41,53 @@ export const fetchStudents = (enrollments) => async (dispatch, getState) => {
     const newState = [...currentState];
 
     filteredResults.forEach((result) => {
-      if (result.results.length > 0) {
+      if (result && result.results && result.results.length > 0) {
         const studentEnrollment = result.results[0].enrollment_number;
         const existingStudentIndex = newState.findIndex(
           (student) => student.enrollment_number === studentEnrollment
         );
 
-        result.results.forEach((semester) => {
-          semester.cgpa = randomGen(10, 6).toFixed(2);
-        });
-        const overall_cgpa=randomGen(10,8).toFixed(2)
+        const attendanceData = [
+          {
+            theory: { attended: result.theory_attendance_semester_1 || '0%' },
+            practical: { attended: result.practical_attendance_semester_1 || '0%' },
+          },
+          {
+            theory: { attended: result.theory_attendance_semester_2 || '0%' },
+            practical: { attended: result.practical_attendance_semester_2 || '0%' },
+          },
+          {
+            theory: { attended: result.theory_attendance_semester_3 || '0%' },
+            practical: { attended: result.practical_attendance_semester_3 || '0%' },
+          },
+          {
+            theory: { attended: result.theory_attendance_semester_4 || '0%' },
+            practical: { attended: result.practical_attendance_semester_4 || '0%' },
+          },
+        ];
+
         const studentData = {
           enrollment_number: studentEnrollment,
-          overall_cgpa:overall_cgpa,
+          student_name: result.results[0].student_name || 'N/A',
+          email: 'dummy.email@example.com', // Dummy email
+          overall_cgpa: randomGen(10, 8).toFixed(2),
           semesters: result.results,
-          attendance: result.attendance,
-          achievements: result.achievements,
+          attendance: attendanceData,
+          achievements: result.achievements || { technical: [], nonTechnical: [] },
+          batch: result.results[0].batch || 'N/A',
+          branch_name: result.results[0].branch_name || 'N/A',
+          college_name: result.results[0].college_name || 'N/A',
         };
 
         if (existingStudentIndex !== -1) {
-          newState[existingStudentIndex].overall_cgpa=randomGen(10,8).toFixed(2)
-          newState[existingStudentIndex].semesters.push(...result.results);
-          newState[existingStudentIndex].attendance = result.attendance;
-          newState[existingStudentIndex].achievements = result.achievements;
+          newState[existingStudentIndex] = studentData;
         } else {
           newState.push(studentData);
         }
       }
     });
 
-    console.log(newState);
+    console.log('Updated state:', newState);
     dispatch(setStudents(newState));
   }
 };
@@ -83,7 +100,7 @@ export const studentSort = () => async (dispatch, getState) => {
     return bCGPA - aCGPA;
   });
   dispatch(setStudents(sortedStudents));
-  console.log(sortedStudents);
+  console.log('Sorted by CGPA:', sortedStudents);
 };
 
 export const enrollSort = () => async (dispatch, getState) => {
@@ -94,27 +111,27 @@ export const enrollSort = () => async (dispatch, getState) => {
     return roll1 - roll2;
   });
   dispatch(setStudents(sortedStudents));
-  console.log(sortedStudents);
+  console.log('Sorted by Enrollment:', sortedStudents);
 };
 
 export const attendanceSort = () => async (dispatch, getState) => {
   const currentState = getState().students;
   const sortedStudents = [...currentState].sort((a, b) => {
-    const aLast = a.attendance.length > 0 ? a.attendance[a.attendance.length - 1].attendance : 0;
-    const bLast = b.attendance.length > 0 ? b.attendance[b.attendance.length - 1].attendance : 0;
+    const aLast = parseFloat(a.attendance[3]?.theory?.attended.replace('%', '')) || 0;
+    const bLast = parseFloat(b.attendance[3]?.theory?.attended.replace('%', '')) || 0;
     return bLast - aLast;
   });
   dispatch(setStudents(sortedStudents));
-  console.log(sortedStudents);
+  console.log('Sorted by Attendance:', sortedStudents);
 };
 
 export const achievementSort = () => async (dispatch, getState) => {
   const currentState = getState().students;
   const sortedStudents = [...currentState].sort((a, b) => {
-    const count1 = parseInt(a.attendance.length);
-    const count2= parseInt(b.attendance.length);
-    return count1 - count2;
+    const count1 = a.achievements.technical.length + a.achievements.nonTechnical.length;
+    const count2 = b.achievements.technical.length + b.achievements.nonTechnical.length;
+    return count2 - count1; // Sorting in descending order
   });
   dispatch(setStudents(sortedStudents));
-  console.log(sortedStudents);
+  console.log('Sorted by Achievements:', sortedStudents);
 };
