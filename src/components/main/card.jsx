@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Main.css";
 import { generatePdfUrl, downloadPdf } from "../../pdf/renderPdf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faDownload, faRandom } from "@fortawesome/free-solid-svg-icons"; // Import icons you need
+import { faEye, faDownload, faRandom } from "@fortawesome/free-solid-svg-icons"; 
 
 const Card = ({ data }) => {
   const navigate = useNavigate();
@@ -28,6 +28,8 @@ const Card = ({ data }) => {
       <img src="/assets/photo1.jpg" alt={`${data.semesters[0].student_name}`} />
       <p>
         <b>{data.semesters[0].student_name}</b>
+        <br />
+        <b>{data.semesters[0].enrollment_number}</b>
         <br />
         <span style={{fontSize:"0.8rem"}}>
         {returnBranch(data.semesters[0].branch_name)}
