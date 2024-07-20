@@ -286,4 +286,13 @@ export const downloadPdf = async (studentData) => {
   saveAs(blob, `${studentData.student_name}_report.pdf`);
 };
 
+export const downloadAllPdf = async (studentData, returnBlob = false) => {
+  const blob = await pdf(<StudentDataPDF studentData={studentData} />).toBlob();
+  if (returnBlob) {
+    return blob;
+  } else {
+    saveAs(blob, `${studentData.semesters[0].student_name}_report.pdf`);
+  }
+};
+
 export default StudentDataPDF;
