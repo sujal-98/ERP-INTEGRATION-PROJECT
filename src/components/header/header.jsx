@@ -3,7 +3,6 @@ import './header.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faPlus, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import { setStudents,fetchStudents } from '../../actions/index';
 
 const Header = () => {
@@ -34,6 +33,10 @@ const Header = () => {
     }
     return result;
   };
+
+  const clearSearch=()=>{
+    dispatch(setStudents([]));
+  }
 
   const handleSearchChange = (event) => {
     if (event.target.value === '') {
@@ -104,7 +107,7 @@ const Header = () => {
       <div className="search-container">
         {enroll.enroll.length > 0 && <div className="enroll-counter" style={{ transition: 'all 1s ease-in' }}>{enroll.enroll.length}</div>}
         
-        <button className="clear-search" onClick={() => setSearchQuery('')}>
+        <button className="clear-search" onClick={() => clearSearch()}>
           Clear Search
           <FontAwesomeIcon icon={faCircleXmark} />
         </button>

@@ -50,15 +50,17 @@ export const fetchStudents = (enrollments) => async (dispatch, getState) => {
         result.results.forEach((semester) => {
           semester.cgpa = randomGen(10, 6).toFixed(2);
         });
-
+        const overall_cgpa=randomGen(10,8).toFixed(2)
         const studentData = {
           enrollment_number: studentEnrollment,
+          overall_cgpa:overall_cgpa,
           semesters: result.results,
           attendance: result.attendance,
           achievements: result.achievements,
         };
 
         if (existingStudentIndex !== -1) {
+          newState[existingStudentIndex].overall_cgpa=randomGen(10,8).toFixed(2)
           newState[existingStudentIndex].semesters.push(...result.results);
           newState[existingStudentIndex].attendance = result.attendance;
           newState[existingStudentIndex].achievements = result.achievements;
@@ -109,9 +111,9 @@ export const attendanceSort = () => async (dispatch, getState) => {
 export const achievementSort = () => async (dispatch, getState) => {
   const currentState = getState().students;
   const sortedStudents = [...currentState].sort((a, b) => {
-    const roll1 = parseInt(a.attendance);
-    const roll2 = parseInt(b.enrollment_number);
-    return roll1 - roll2;
+    const count1 = parseInt(a.attendance.length);
+    const count2= parseInt(b.attendance.length);
+    return count1 - count2;
   });
   dispatch(setStudents(sortedStudents));
   console.log(sortedStudents);

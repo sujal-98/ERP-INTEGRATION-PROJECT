@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
 import { useSelector, useDispatch } from 'react-redux';
-import { setStudents, studentSort, enrollSort } from '../../actions/index';
+import { setStudents, studentSort, enrollSort,achievementSort } from '../../actions/index';
 
 
 const Sidebar = () => {
@@ -31,6 +31,9 @@ const Sidebar = () => {
     }
     else if(option=="ENROLLMENT"){
       dispatch(enrollSort());
+    }
+    else if(option=="Achievements"){
+      dispatch(achievementSort())
     }
   };
 
