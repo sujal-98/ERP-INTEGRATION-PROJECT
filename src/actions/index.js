@@ -23,7 +23,7 @@ export const fetchStudents = (enrollments) => async (dispatch, getState) => {
   for (const chunk of chunks) {
     const promises = chunk.map(async (roll) => {
       try {
-        const response = await axios.post('http://localhost:2000/api/result', {
+        const response = await axios.post('http://localhost:1000/api/result', {
           enroll: String(roll),
         });
         console.log('response fetched for roll:', roll);
