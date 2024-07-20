@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
+import { useSelector, useDispatch } from 'react-redux';
+import { setStudents, studentSort, enrollSort } from '../../actions/index';
+
 
 const Sidebar = () => {
   const [sortMenuVisible, setSortMenuVisible] = useState(false);
@@ -10,7 +13,9 @@ const Sidebar = () => {
   const [selectedCGPA, setSelectedCGPA] = useState(""); // State for selected CGPA
   const [selectedSociety, setSelectedSociety] = useState(""); // State for selected society
   const [sidebarStyle, setSidebarStyle] = useState({});
-
+  const students = useSelector((state) => state.students);
+  const dispatch = useDispatch();
+  
   const toggleSortMenu = () => {
     setSortMenuVisible(!sortMenuVisible);
   };
@@ -21,6 +26,12 @@ const Sidebar = () => {
 
   const handleSortClick = (option) => {
     setSelectedSort(option);
+    if (option === "CGPA") {
+      dispatch(studentSort());
+    }
+    else if(option=="ENROLLMENT"){
+      dispatch(enrollSort());
+    }
   };
 
   useEffect(() => {

@@ -81,42 +81,60 @@ function parseCSVFile(filePath, rollNumber, callback) {
     });
 }
 
+
 Router.post('/result', async (req, res) => {
   const rollNumber = req.body.enroll;
   const path2 = './result';
-  const results = []; 
+  const achieve = './achievements';
+  const attend = './attendance';
+  const results = [];
+  const achievements = [];
+  const attendance = [];
 
-  fs.readdir(path2, async (err, files) => {
-    if (err) {
-      console.error(`Could not list the directory.`, err);
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
+  const fetchData = (dirPath, dataArray, callback) => {
+    fs.readdir(dirPath, (err, files) => {
+      if (err) {
+        console.error(`Could not list the directory ${dirPath}.`, err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
 
-    let count = 0;
-
-    files.forEach((file, index) => {
-      const filePath = path.join(path2, file);
-      parseCSVFile(filePath, rollNumber, (err, data) => {
-        if (err) {
-          console.error(`Error processing file ${file}:`, err);
-        } else {
-          if (data && data.length > 0) {
-            results.push(...data); 
-          }
-        }
-        count++;
-
-        if (count === files.length) {
-          if (results.length !== 0) {
-            res.status(201).json(results); 
+      let count = 0;
+      files.forEach((file) => {
+        const filePath = path.join(dirPath, file);
+        parseCSVFile(filePath, rollNumber, (err, data) => {
+          if (err) {
+            console.error(`Error processing file ${file} in ${dirPath}:`, err);
           } else {
-            res.status(404).json({ message: 'Data not found' }); 
+            if (data && data.length > 0) {
+              dataArray.push(...data);
+            }
           }
-        }
+          count++;
+          if (count === files.length) {
+            callback();
+          }
+        });
       });
     });
-  });
+  };
+
+  let totalDirsProcessed = 0;
+  const totalDirs = 3;
+
+  const checkAllDirsProcessed = () => {
+    totalDirsProcessed++;
+    if (totalDirsProcessed === totalDirs) {
+      if (results.length > 0 || achievements.length > 0 || attendance.length > 0) {
+        res.status(201).json({ results, achievements, attendance });
+      } else {
+        res.status(404).json({ message: 'Data not found' });
+      }
+    }
+  };
+
+  fetchData(path2, results, checkAllDirsProcessed);
+  fetchData(achieve, achievements, checkAllDirsProcessed);
+  fetchData(attend, attendance, checkAllDirsProcessed);
 });
 
-module.exports = Router;
-
+module.exports=Router

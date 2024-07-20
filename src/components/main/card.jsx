@@ -25,16 +25,16 @@ const Card = ({ data }) => {
   }
   return (
     <div className="card">
-      <img src="/assets/photo1.jpg" alt={`${data.student_name}`} />
+      <img src="/assets/photo1.jpg" alt={`${data.semesters[0].student_name}`} />
       <p>
-        <b>{data.student_name}</b>
+        <b>{data.semesters[0].student_name}</b>
         <br />
         <span style={{fontSize:"0.8rem"}}>
-        {returnBranch(data.branch_name)[0]}
+        {returnBranch(data.semesters[0].branch_name)}
         </span>
         <br />
         <span style={{fontWeight:"100"}}>
-        {returnBranch(data.branch_name)[1]+" - "+data.batch}
+        {data.semesters[0].batch+" - "+data.semesters[0].branch_code}
         </span>
       </p>
       <button
