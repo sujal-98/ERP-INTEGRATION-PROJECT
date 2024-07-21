@@ -24,6 +24,36 @@ const Main = () => {
     setCurrentPage(pageNumber);
   };
 
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    const pageRange = 2; // Number of pages to show before and after the current page
+
+    for (let i = 1; i <= totalPages; i++) {
+      if (
+        i === 1 ||
+        i === totalPages ||
+        (i >= currentPage - pageRange && i <= currentPage + pageRange)
+      ) {
+        pageNumbers.push(
+          <button
+            key={i}
+            onClick={() => handlePageChange(i)}
+            className={currentPage === i ? "active" : ""}
+          >
+            {i}
+          </button>
+        );
+      } else if (
+        (i === currentPage - pageRange - 1 && i > 1) ||
+        (i === currentPage + pageRange + 1 && i < totalPages)
+      ) {
+        pageNumbers.push(<span key={i}>...</span>);
+      }
+    }
+
+    return pageNumbers;
+  };
+
   return (
     <>
       <div className="cards-container" style={{ minHeight: "80vh" }}>
@@ -46,15 +76,7 @@ const Main = () => {
           {currentPage > 1 && (
             <button onClick={() => handlePageChange(1)}>{'<<'}</button>
           )}
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => handlePageChange(index + 1)}
-              className={currentPage === index + 1 ? "active" : ""}
-            >
-              {index + 1}
-            </button>
-          ))}
+          {renderPageNumbers()}
           {currentPage < totalPages && (
             <button onClick={() => handlePageChange(totalPages)}>{'>>'}</button>
           )}

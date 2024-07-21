@@ -31,4 +31,22 @@
   .nav-link.active::after {
     transform: scaleX(1);
   }
+
+  @media(max-width: 1034px){
+    .nav-link{
+      font-size: 0.8rem;
+    }
+    .h-12{
+      /* position:relative;
+      left:100px; */
+      width:55px;
+      height:auto;
+    }
+  }
   
+  @media(max-width:767px){
+    .h-12{
+      width:96px;
+      height:auto;
+    }
+  }

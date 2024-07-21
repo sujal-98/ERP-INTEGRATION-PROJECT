@@ -27,16 +27,16 @@ const Card = ({ data }) => {
     <div className="card">
       <img src="/assets/photo1.jpg" alt={`${data.semesters[0].student_name}`} />
       <p>
-        <b>{data.semesters[0].student_name}</b>
+        <b style={{fontSize:"0.80rem"}}>{data.semesters[0].student_name}</b>
         <br />
-        <b>{data.semesters[0].enrollment_number}</b>
+        <b style={{fontSize:"0.80rem"}}>{data.semesters[0].enrollment_number}</b>
         <br />
         <span style={{fontSize:"0.8rem"}}>
-        {returnBranch(data.semesters[0].branch_name)}
+        {returnBranch(data.semesters[0].branch_name)[0]}
         </span>
         <br />
         <span style={{fontWeight:"100"}}>
-        {data.semesters[0].batch+" - "+data.semesters[0].branch_code}
+        {returnBranch(data.semesters[0].branch_name)[1] + " - " + data.semesters[0].batch}
         </span>
       </p>
       <button
