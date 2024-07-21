@@ -357,11 +357,16 @@ export const downloadPdf = async (studentData) => {
 };
 
 export const downloadAllPdf = async (studentData, returnBlob = false) => {
-  const blob = await pdf(<StudentDataPDF studentData={studentData} />).toBlob();
-  if (returnBlob) {
-    return blob;
-  } else {
-    saveAs(blob, `${studentData.semesters[0].student_name}_report.pdf`);
+  try {
+    const blob = await pdf(<StudentDataPDF studentData={studentData} />).toBlob();
+    
+    if (returnBlob) {
+      return blob;
+    } else {
+      saveAs(blob, `${studentData.semesters[0].student_name}_report.pdf`);
+    }
+  } catch (error) {
+    console.error('Error generating PDF:', error);
   }
 };
 
