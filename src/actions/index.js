@@ -52,11 +52,77 @@ export const fetchStudents = (enrollments) => async (dispatch, getState) => {
         });
         const overall_cgpa=randomGen(10,8).toFixed(2)
         const studentData = {
+          email:'abcd@gmail.com',
           enrollment_number: studentEnrollment,
           overall_cgpa:overall_cgpa,
           semesters: result.results,
           attendance: result.attendance,
           achievements: result.achievements,
+          societies:[ {
+            "name": "Namespace",
+            "background": "Technical",
+            "position": "Member",
+            "major_events": [
+              "Tech Innovators Conference 2023",
+              "Hackathon 2023"
+            ],
+            "achievements": [
+              "First Prize in National Coding Competition",
+              "Organized the largest tech meet-up in the region"
+            ]
+          },
+          {
+            "name": "HashDefine",
+            "background": "Technical",
+            "position": "President",
+            "major_events": [
+              "AI & Machine Learning Workshop",
+              "Coding Bootcamp"
+            ],
+            "achievements": [
+              "Launched a successful coding bootcamp series",
+              "Developed a popular open-source project"
+            ]
+          },
+          {
+            "name": "Aavran",
+            "background": "Non-Technical",
+            "position": "Event Coordinator",
+            "major_events": [
+              "Cultural Fest",
+              "Annual Art Exhibition"
+            ],
+            "achievements": [
+              "Best Cultural Event of the Year",
+              "Record attendance at the Annual Art Exhibition"
+            ]
+          },
+          {
+            "name": "Anveshan",
+            "background": "Non-Technical",
+            "position": "Member",
+            "major_events": [
+              "Social Outreach Programs",
+              "Annual Community Service Day"
+            ],
+            "achievements": [
+              "Successfully organized over 50 community outreach programs",
+              "Received Community Service Award"
+            ]
+          },
+          {
+            "name": "Octave",
+            "background": "Non-Technical",
+            "position": "Secretary",
+            "major_events": [
+              "Music Festival",
+              "Talent Showcase"
+            ],
+            "achievements": [
+              "Best Music Festival in the Region",
+              "Promoted local talent through multiple showcases"
+            ]
+          }]
         };
 
         if (existingStudentIndex !== -1) {

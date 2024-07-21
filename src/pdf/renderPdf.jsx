@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 5,
     backgroundColor: '#fff',
+    break: 'page',
   },
   sectionTitle: {
     fontSize: 16,
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   infoContainer: {
-    paddingRight: 100,
+    paddingRight: 60,
   },
   tableRow: {
     flexDirection: 'row',
@@ -97,27 +98,25 @@ const styles = StyleSheet.create({
   attendanceSection: {
     marginBottom: 20,
   },
-  attendanceRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
+  
   attendanceColHeader: {
-    width: '25%',
+    width: '80%',
     backgroundColor: '#f0f0f0',
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: '#bfbfbf',
-    padding: 5,
-    textAlign: 'center',
-    fontWeight: 'bold',
+    padding: 10,
+    marginRight:1,
+    marginBottom:10
   },
   attendanceCol: {
-    width: '25%',
+    width: '40%',
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: '#bfbfbf',
-    padding: 5,
-    textAlign: 'center',
+    padding: 10,
+    marginRight:15,
+    marginBottom:10
   },
   achievementRow: {
     flexDirection: 'row',
@@ -142,6 +141,31 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     
   },
+  societiesRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 10,
+  },
+  societiesColHeader: {
+    width: '25%',
+    backgroundColor: '#f0f0f0',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#bfbfbf',
+    padding: 10,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  societiesCol: {
+    width: '25%',
+    borderStyle: 'solid',
+    padding: 10,
+    borderWidth: 1,
+    textAlign: 'center',
+  },
+  sectionSpacing: {
+    marginBottom: 50, 
+  },
 });
 
 // Default data
@@ -160,11 +184,12 @@ const defaultData = {
     technical: [],
     nonTechnical: [],
   },
+  societies: [],
   attendance: [
-    { theory: { attended: 'N/A' }, practical: { attended: 'N/A' } },
-    { theory: { attended: 'N/A' }, practical: { attended: 'N/A' } },
-    { theory: { attended: 'N/A' }, practical: { attended: 'N/A' } },
-    { theory: { attended: 'N/A' }, practical: { attended: 'N/A' } },
+    { theory_attendance_semester_1: 'N/A', practical_attendance_semester_1: 'N/A' },
+    { theory_attendance_semester_2: 'N/A', practical_attendance_semester_2: 'N/A' },
+    { theory_attendance_semester_3: 'N/A', practical_attendance_semester_3: 'N/A' },
+    { theory_attendance_semester_4: 'N/A', practical_attendance_semester_4: 'N/A' },
   ],
 };
 
@@ -186,7 +211,8 @@ const StudentDataPDF = ({ studentData = defaultData }) => {
       theory_attendance_semester_4: studentData.attendance[3]?.theory?.attended || 'N/A',
       practical_attendance_semester_4: studentData.attendance[3]?.practical?.attended || 'N/A',
     },
-  ];
+  ]
+  const societies = studentData.societies || [];
 
   return (
     <Document>
@@ -195,7 +221,7 @@ const StudentDataPDF = ({ studentData = defaultData }) => {
         {/* Header */}
         <View style={styles.header}>
           <Image style={styles.logo} src={`${process.env.PUBLIC_URL}/assets/bpitlogo.png`} />
-          <Text style={styles.collegeName}>{studentData.college_name}</Text>
+          <Text style={styles.collegeName}>{studentData.semesters[0].college_name}</Text>
         </View>
 
         {/* Student Information */}
@@ -205,7 +231,7 @@ const StudentDataPDF = ({ studentData = defaultData }) => {
           <View style={styles.infoContainer}>
             <View style={styles.tableRow}>
               <View style={styles.tableColHeader}><Text>Name</Text></View>
-              <View style={styles.tableCol}><Text>{studentData.student_name}</Text></View>
+              <View style={styles.tableCol}><Text>{studentData.semesters[0].student_name}</Text></View>
             </View>
             <View style={styles.tableRow}>
               <View style={styles.tableColHeader}><Text>Email</Text></View>
@@ -213,7 +239,7 @@ const StudentDataPDF = ({ studentData = defaultData }) => {
             </View>
             <View style={styles.tableRow}>
               <View style={styles.tableColHeader}><Text>Batch</Text></View>
-              <View style={styles.tableCol}><Text>{studentData.batch}</Text></View>
+              <View style={styles.tableCol}><Text>{studentData.semesters[0].batch}</Text></View>
             </View>
             <View style={styles.tableRow}>
               <View style={styles.tableColHeader}><Text>CGPA</Text></View>
@@ -222,30 +248,54 @@ const StudentDataPDF = ({ studentData = defaultData }) => {
           </View>
         </View>
 
-        {/* Attendance */}
-        <View style={styles.section}>
+    {/* Attendance */}
+    <View style={styles.section}>
           <Text style={styles.sectionTitle}>Attendance</Text>
-          <View style={styles.attendanceRow}>
+          <View style={styles.infoContainer}>
+          <View style={styles.tableRow}><View style={styles.attendanceColHeader}><Text>Theory - Sem 1</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].theory_attendance_semester_1|| 'N/A'}</Text></View>
+          <View style={styles.attendanceColHeader}><Text>Practical - Sem 1</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].practical_attendance_semester_1|| 'N/A'}</Text></View>
+          </View>
+          <View style={styles.tableRow}><View style={styles.attendanceColHeader}><Text>Theory - Sem 2</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].theory_attendance_semester_2|| 'N/A'}</Text></View>
+          <View style={styles.attendanceColHeader}><Text>Practical - Sem 2</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].practical_attendance_semester_2|| 'N/A'}</Text></View>
+          </View>
+          <View style={styles.tableRow}><View style={styles.attendanceColHeader}><Text>Theory - Sem 3</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].theory_attendance_semester_3|| 'N/A'}</Text></View>
+          <View style={styles.attendanceColHeader}><Text>Practical - Sem 3</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].practical_attendance_semester_3|| 'N/A'}</Text></View>
+          </View>
+          <View style={styles.tableRow}><View style={styles.attendanceColHeader}><Text>Theory - Sem 4</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].theory_attendance_semester_4|| 'N/A'}</Text></View>
+          <View style={styles.attendanceColHeader}><Text>Practical - Sem 4</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].practical_attendance_semester_4|| 'N/A'}</Text></View>
+          </View>
+          <View style={styles.tableRow}><View style={styles.attendanceColHeader}><Text>Theory - Sem 5</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].theory_attendance_semester_5|| 'N/A'}</Text></View>
+          <View style={styles.attendanceColHeader}><Text>Practical - Sem 5</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].practical_attendance_semester_5|| 'N/A'}</Text></View>
+          </View>
+          <View style={styles.tableRow}><View style={styles.attendanceColHeader}><Text>Theory - Sem 6</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].theory_attendance_semester_6|| 'N/A'}</Text></View>
+          <View style={styles.attendanceColHeader}><Text>Practical - Sem 6</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].practical_attendance_semester_6|| 'N/A'}</Text></View>
+          </View>
+          <View style={styles.tableRow}><View style={styles.attendanceColHeader}><Text>Theory - Sem 7</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].theory_attendance_semester_7|| 'N/A'}</Text></View>
+          <View style={styles.attendanceColHeader}><Text>Practical - Sem 7</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].practical_attendance_semester_7|| 'N/A'}</Text></View>
+          </View>
+          <View style={styles.tableRow}><View style={styles.attendanceColHeader}><Text>Theory - Sem 8</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].theory_attendance_semester_8|| 'N/A'}</Text></View>
+          <View style={styles.attendanceColHeader}><Text>Practical - Sem 8</Text></View>
+          <View style={styles.attendanceCol}><Text>{studentData.attendance[0].practical_attendance_semester_8|| 'N/A'}</Text></View>
+          </View>
+            
           
-            <View style={styles.attendanceColHeader}><Text>Theory - Sem 1</Text></View>
-            <View style={styles.attendanceColHeader}><Text>Practical - Sem 1</Text></View>
-            <View style={styles.attendanceColHeader}><Text>Theory - Sem 2</Text></View>
-            <View style={styles.attendanceColHeader}><Text>Practical - Sem 2</Text></View>
-            <View style={styles.attendanceColHeader}><Text>Theory - Sem 3</Text></View>
-            <View style={styles.attendanceColHeader}><Text>Practical - Sem 3</Text></View>
-            <View style={styles.attendanceColHeader}><Text>Theory - Sem 4</Text></View>
-            <View style={styles.attendanceColHeader}><Text>Practical - Sem 4</Text></View>
-          </View>
-          <View style={styles.attendanceRow}>
-            <View style={styles.attendanceCol}><Text>{attendanceData[0]?.theory_attendance_semester_1}</Text></View>
-            <View style={styles.attendanceCol}><Text>{attendanceData[0]?.practical_attendance_semester_1}</Text></View>
-            <View style={styles.attendanceCol}><Text>{attendanceData[0]?.theory_attendance_semester_2}</Text></View>
-            <View style={styles.attendanceCol}><Text>{attendanceData[0]?.practical_attendance_semester_2}</Text></View>
-            <View style={styles.attendanceCol}><Text>{attendanceData[0]?.theory_attendance_semester_3}</Text></View>
-            <View style={styles.attendanceCol}><Text>{attendanceData[0]?.practical_attendance_semester_3}</Text></View>
-            <View style={styles.attendanceCol}><Text>{attendanceData[0]?.theory_attendance_semester_4}</Text></View>
-            <View style={styles.attendanceCol}><Text>{attendanceData[0]?.practical_attendance_semester_4}</Text></View>
-          </View>
+        
+        </View>
         </View>
       </Page>
 
@@ -296,7 +346,7 @@ const StudentDataPDF = ({ studentData = defaultData }) => {
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Image style={styles.logo} src={`${process.env.PUBLIC_URL}/assets/bpitlogo.png`} />
-          <Text style={styles.collegeName}>{studentData.college_name}</Text>
+          <Text style={styles.collegeName}>{studentData.semesters[0].college_name}</Text>
         </View>
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Achievements</Text>
@@ -313,34 +363,59 @@ const StudentDataPDF = ({ studentData = defaultData }) => {
             </View>
           ))}
         </View>
-      </Page>
+      
+         {/* Societies Section */}
+         <View style={styles.section}>
+  <Text style={styles.sectionTitle}>Societies</Text>
+  <Text style={styles.sectionTitle}>Technical Societies</Text>
+  {societies.filter(society => society.background === 'Technical').map((society, index) => (
+    <View key={index} style={styles.societiesRow}>
+      <View style={styles.societiesColHeader}><Text>Society Name</Text></View>
+      <View style={styles.societiesColHeader}><Text>Position</Text></View>
+      <View style={styles.societiesColHeader}><Text>Major Events</Text></View>
+      <View style={styles.societiesColHeader}><Text>Achievements</Text></View>
+      
+      <View style={styles.societiesCol}><Text>{society.name}</Text></View>
+      <View style={styles.societiesCol}><Text>{society.position}</Text></View>
+      <View style={[styles.societiesCol, { flexWrap: 'wrap' }]}>
+        {society.major_events.map((event, eventIndex) => (
+          <Text key={eventIndex}>{event}</Text>
+        ))}
+      </View>
+      <View style={[styles.societiesCol, { flexWrap: 'wrap' }]}>
+        {society.achievements.map((ach, achIndex) => (
+          <Text key={achIndex}>{ach}</Text>
+        ))}
+      </View>
+    </View>
+  ))}
 
-      {/* Societies (commented out) */}
-      {/* <Page size="A4" style={styles.page}>
-        <View style={styles.header}>
-          <Image style={styles.logo} src={`${process.env.PUBLIC_URL}/assets/bpitlogo.png`} />
-          <Text style={styles.collegeName}>{studentData.college_name}</Text>
-        </View>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Societies</Text>
-          <View style={styles.societiesSection}>
-            <Text style={styles.sectionTitle}>Technical Societies</Text>
-            <View style={styles.societiesList}>
-              {studentData.societies.technical.map((item, index) => (
-                <Text key={index} style={styles.societyItem}>- {item}</Text>
-              ))}
-            </View>
-          </View>
-          <View style={styles.societiesSection}>
-            <Text style={styles.sectionTitle}>Non-Technical Societies</Text>
-            <View style={styles.societiesList}>
-              {studentData.societies.nonTechnical.map((item, index) => (
-                <Text key={index} style={styles.societyItem}>- {item}</Text>
-              ))}
-            </View>
-          </View>
-        </View>
-      </Page> */}
+<View style={styles.sectionSpacing} />
+  <Text style={styles.sectionTitle}>Non-Technical Societies</Text>
+  {societies.filter(society => society.background === 'Non-Technical').map((society, index) => (
+    <View key={index} style={styles.societiesRow}>
+      <View style={styles.societiesColHeader}><Text>Society Name</Text></View>
+      <View style={styles.societiesColHeader}><Text>Position</Text></View>
+      <View style={styles.societiesColHeader}><Text>Major Events</Text></View>
+      <View style={styles.societiesColHeader}><Text>Achievements</Text></View>
+
+      <View style={styles.societiesCol}><Text>{society.name}</Text></View>
+      <View style={styles.societiesCol}><Text>{society.position}</Text></View>
+      <View style={[styles.societiesCol, { flexWrap: 'wrap' }]}>
+        {society.major_events.map((event, eventIndex) => (
+          <Text key={eventIndex}>{event}</Text>
+        ))}
+      </View>
+      <View style={[styles.societiesCol, { flexWrap: 'wrap' }]}>
+        {society.achievements.map((ach, achIndex) => (
+          <Text key={achIndex}>{ach}</Text>
+        ))}
+      </View>
+    </View>
+  ))}
+</View>
+
+      </Page>
     </Document>
   );
 };
