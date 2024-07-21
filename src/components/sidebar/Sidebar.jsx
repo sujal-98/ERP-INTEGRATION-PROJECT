@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
 import { useSelector, useDispatch } from 'react-redux';
-import { setStudents, studentSort, enrollSort, achievementSort } from '../../actions/index';
+import { setStudents, studentSort, enrollSort, achievementSort ,attendanceSort} from '../../actions/index';
 
 const Sidebar = () => {
   const [sortMenuVisible, setSortMenuVisible] = useState(false);
@@ -23,14 +23,20 @@ const Sidebar = () => {
     setFilterMenuVisible(!filterMenuVisible);
   };
 
+
   const handleSortClick = (option) => {
     setSelectedSort(option);
     if (option === "CGPA") {
       dispatch(studentSort());
-    } else if (option === "ENROLLMENT") {
+    }
+    else if(option=="ENROLLMENT"){
       dispatch(enrollSort());
-    } else if (option === "Achievements") {
-      dispatch(achievementSort());
+    }
+    else if(option=="Achievements"){
+      dispatch(achievementSort())
+    }
+    else if(option=="Attendance"){
+      dispatch(attendanceSort())
     }
   };
 
@@ -84,6 +90,26 @@ const Sidebar = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const handleReset = () => {
+    const state = sessionStorage.getItem('state');
+    
+    if (state) {
+      try {
+        const parsed = eval(`(${state})`);  
+        if (Array.isArray(parsed)) {
+          dispatch(setStudents(parsed));
+        } else {
+          console.error('Stored state is not in the expected format.');
+        }
+      } catch (error) {
+        console.error('Error parsing stored state:', error);
+      }
+    } else {
+      console.error('No state found in sessionStorage.');
+    }
+  };
+  
 
   return (
     <>
@@ -216,7 +242,7 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
-        <button className="btn apply-btn" type="button">Apply</button>
+      <button className="btn apply-btn" type="button" onClick={()=>{handleReset()}}>Reset</button>
       </div>
     </>
   );

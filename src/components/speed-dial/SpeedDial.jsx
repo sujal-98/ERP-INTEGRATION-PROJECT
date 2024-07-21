@@ -62,7 +62,7 @@ const Speed = () => {
             flexDirection: 'column',
             position: 'absolute',
             top: '0%',
-            left: '50%',
+            left: '40%',
             transform: 'translate(-50%, -50%)',
             zIndex: 1,
             backgroundColor: 'white', 

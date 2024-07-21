@@ -163,23 +163,42 @@ export const enrollSort = () => async (dispatch, getState) => {
   console.log(sortedStudents);
 };
 
-export const attendanceSort = () => async (dispatch, getState) => {
+
+  const getLastSemesterAttendance = (attendance) => {
+    if (!attendance || attendance.length === 0) return 0;
+
+    const latestSemesterIndex = Object.keys(attendance[0])
+      .filter(key => key.startsWith('theory_attendance_semester_') || key.startsWith('practical_attendance_semester_'))
+      .map(key => parseInt(key.split('_').pop(), 10))
+      .reduce((a, b) => Math.max(a, b), 0);
+
+    const theoryAttendance = attendance[0][`theory_attendance_semester_${latestSemesterIndex}`] || "0%";
+    const practicalAttendance = attendance[0][`practical_attendance_semester_${latestSemesterIndex}`] || "0%";
+
+    const theoryPercentage = parseFloat(theoryAttendance) || 0;
+    const practicalPercentage = parseFloat(practicalAttendance) || 0;
+
+    return (theoryPercentage + practicalPercentage) / 2;
+  };
+
+
+ export const attendanceSort = () => async (dispatch, getState) => {
   const currentState = getState().students;
   const sortedStudents = [...currentState].sort((a, b) => {
-    const aLast = a.attendance.length > 0 ? a.attendance[a.attendance.length - 1].attendance : 0;
-    const bLast = b.attendance.length > 0 ? b.attendance[b.attendance.length - 1].attendance : 0;
-    return bLast - aLast;
+    const aAvg = getLastSemesterAttendance(a.attendance);
+    const bAvg = getLastSemesterAttendance(b.attendance);
+    return bAvg - aAvg;
   });
   dispatch(setStudents(sortedStudents));
   console.log(sortedStudents);
-};
+  };
 
 export const achievementSort = () => async (dispatch, getState) => {
   const currentState = getState().students;
   const sortedStudents = [...currentState].sort((a, b) => {
-    const count1 = parseInt(a.attendance.length);
-    const count2= parseInt(b.attendance.length);
-    return count1 - count2;
+    const aCount = a.achievements ? a.achievements.length : 0;
+    const bCount = b.achievements ? b.achievements.length : 0;
+    return bCount - aCount;
   });
   dispatch(setStudents(sortedStudents));
   console.log(sortedStudents);
