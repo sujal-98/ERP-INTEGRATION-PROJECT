@@ -91,6 +91,14 @@
   border: 1px solid black;
 }
 
+.plus-icon{
+  color: black; 
+  z-index:2; 
+  cursor: pointer;
+  position: absolute; 
+  right: 7.6rem;
+}
+
 .search-button:hover {
   background-color: rgb(33, 206, 206);
   color: black;
@@ -206,6 +214,9 @@
       width:100px;
       height:80%;
       font-size: 0.7rem;
+    }
+    .plus-icon{
+      right:4.1rem;
     }
     .search-button{
       width:30%;

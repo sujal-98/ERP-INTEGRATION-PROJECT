@@ -127,8 +127,8 @@ const Header = () => {
             {add && (
               <FontAwesomeIcon
                 icon={faPlus}
-                style={{ color: 'black', zIndex: '2', cursor: 'pointer', position: 'absolute', right: '7.6rem' }}
                 onClick={() => handleAdd(searchQuery)}
+                className='plus-icon'
               />
             )}
             <button className="search-button" onClick={handleSearch}>
