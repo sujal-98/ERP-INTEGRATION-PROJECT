@@ -41,9 +41,12 @@
     "sequelize": "^6.37.3",
     "web-vitals": "^2.1.4"
   },
+  
   "scripts": {
-      "build:frontend": "cd frontend && npm run build",
-  "start:frontend": "serve -s frontend/build"
+    "build:frontend": "cd frontend && npm run build",
+    "start:frontend": "serve -s frontend/build",
+    "start": "node backend/index.js", 
+    "build": "npm run build:frontend"
   },
   "eslintConfig": {
     "extends": [
