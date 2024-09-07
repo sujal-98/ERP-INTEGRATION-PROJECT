@@ -1,0 +1,52 @@
+.nav-link {
+    position: relative;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s;
+  }
+  
+  .nav-link:hover {
+    color: #9333ea; /* Tailwind color class for purple-600 */
+  }
+  
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background: #9333ea; /* Tailwind color class for purple-600 */
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+  
+  .nav-link.active {
+    color: #9333ea; /* Tailwind color class for purple-600 */
+  }
+  
+  .nav-link.active::after {
+    transform: scaleX(1);
+  }
+
+  @media(max-width: 1034px){
+    .nav-link{
+      font-size: 0.8rem;
+    }
+    .h-12{
+      /* position:relative;
+      left:100px; */
+      width:55px;
+      height:auto;
+    }
+  }
+  
+  @media(max-width:767px){
+    .h-12{
+      width:96px;
+      height:auto;
+    }
+  }
