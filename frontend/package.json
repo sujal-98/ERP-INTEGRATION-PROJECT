@@ -43,10 +43,8 @@
   },
   
   "scripts": {
-    "build:frontend": "cd frontend && npm run build",
-    "start:frontend": "serve -s frontend/build",
-    "start": "node backend/index.js", 
-    "build": "npm run build:frontend"
+    "start": "react-scripts start",
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": [
