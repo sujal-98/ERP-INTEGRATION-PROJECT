@@ -3,7 +3,7 @@ import './header.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faPlus, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { setStudents,fetchStudents } from '../../actions/index';
+import { setStudents,fetchStudents ,updStudents} from '../../actions/index';
 
 const Header = () => {
   const lowerRef = useRef(null);
@@ -13,7 +13,7 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [range, setRange] = useState(false);
 
-  const students = useSelector((state) => state.students);
+  const students = useSelector((state) => state.display.students);
   const dispatch = useDispatch();
 
   const valid2 = (enroll) => {
@@ -36,6 +36,7 @@ const Header = () => {
 
   const clearSearch=()=>{
     dispatch(setStudents([]));
+    dispatch(updStudents([]));
   }
 
   const handleSearchChange = (event) => {

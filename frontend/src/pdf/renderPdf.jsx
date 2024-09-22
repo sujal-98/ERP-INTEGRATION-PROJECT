@@ -428,7 +428,7 @@ export const generatePdfUrl = async (studentData) => {
 
 export const downloadPdf = async (studentData) => {
   const blob = await pdf(<StudentDataPDF studentData={studentData} />).toBlob();
-  saveAs(blob, `${studentData.student_name}_report.pdf`);
+  saveAs(blob, `${studentData.semesters[0].student_name}_report.pdf`);
 };
 
 export const downloadAllPdf = async (studentData, returnBlob = false) => {

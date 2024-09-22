@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
 import { useSelector, useDispatch } from 'react-redux';
-import { setStudents, studentSort, enrollSort, achievementSort ,attendanceSort} from '../../actions/index';
+import { setStudents, studentSort, enrollSort, achievementSort, attendanceSort, filterStudents, updStudents } from '../../actions/index';
 
 const Sidebar = () => {
+  const originalStudents = useSelector((state) => state.student.students);
+
   const [sortMenuVisible, setSortMenuVisible] = useState(false);
   const [filterMenuVisible, setFilterMenuVisible] = useState(false);
   const [selectedOption, setSelectedSort] = useState("");
@@ -12,8 +14,19 @@ const Sidebar = () => {
   const [selectedCGPA, setSelectedCGPA] = useState("");
   const [selectedSociety, setSelectedSociety] = useState("");
   const [sidebarVisible, setSidebarVisible] = useState(false);
-  const students = useSelector((state) => state.students);
   const dispatch = useDispatch();
+
+  // Collect the filter data
+  const filter = {
+    batch: selectedBatch,
+    branch: selectedBranch,
+    cgpa: selectedCGPA,
+    society: selectedSociety
+  };
+
+  useEffect(() => {
+    dispatch(filterStudents(filter)); 
+  }, [selectedBatch, selectedBranch, selectedCGPA, selectedSociety, dispatch]);
 
   const toggleSortMenu = () => {
     setSortMenuVisible(!sortMenuVisible);
@@ -23,20 +36,19 @@ const Sidebar = () => {
     setFilterMenuVisible(!filterMenuVisible);
   };
 
-
   const handleSortClick = (option) => {
     setSelectedSort(option);
     if (option === "CGPA") {
       dispatch(studentSort());
     }
-    else if(option=="ENROLLMENT"){
+    else if (option === "ENROLLMENT") {
       dispatch(enrollSort());
     }
-    else if(option=="Achievements"){
-      dispatch(achievementSort())
+    else if (option === "Achievements") {
+      dispatch(achievementSort());
     }
-    else if(option=="Attendance"){
-      dispatch(attendanceSort())
+    else if (option === "Attendance") {
+      dispatch(attendanceSort());
     }
   };
 
@@ -92,36 +104,26 @@ const Sidebar = () => {
   }, []);
 
   const handleReset = () => {
-    const state = sessionStorage.getItem('state');
-    
-    if (state) {
-      try {
-        const parsed = eval(`(${state})`);  
-        if (Array.isArray(parsed)) {
-          dispatch(setStudents(parsed));
-        } else {
-          console.error('Stored state is not in the expected format.');
-        }
-      } catch (error) {
-        console.error('Error parsing stored state:', error);
-      }
-    } else {
-      console.error('No state found in sessionStorage.');
-    }
+    setSelectedBatch("");
+    setSelectedBranch("");
+    setSelectedCGPA("");
+    setSelectedSociety("");
+    setSelectedSort("");
+    dispatch(filterStudents({ batch: "", branch: "", cgpa: "", society: "" }));
+    dispatch(updStudents(originalStudents))
   };
-  
 
   return (
     <>
-        {sidebarVisible ? (
-          <div style={{marginLeft:"45%", marginTop:"24rem"}} className={`cross hamburger-menu ${sidebarVisible ? "hide-hamburger" : ""}` } onClick={toggleSidebar}>
-          <i className="fa fa-times" ></i>
-          </div>
-        ) : (
-          <div className={`ham hamburger-menu ${sidebarVisible ? "hide-hamburger" : ""}`} onClick={toggleSidebar}>
+      {sidebarVisible ? (
+        <div style={{ marginLeft: "45%", marginTop: "24rem" }} className={`cross hamburger-menu ${sidebarVisible ? "hide-hamburger" : ""}`} onClick={toggleSidebar}>
+          <i className="fa fa-times"></i>
+        </div>
+      ) : (
+        <div className={`ham hamburger-menu ${sidebarVisible ? "hide-hamburger" : ""}`} onClick={toggleSidebar}>
           <i className="fa fa-bars"></i>
-          </div>
-        )}
+        </div>
+      )}
       <div className={`sidebar-container ${sidebarVisible ? "show-sidebar" : "hide-sidebar"}`}>
         <div className="sidebar">
           <button className="btn sort" type="button" onClick={toggleSortMenu}>
@@ -219,11 +221,13 @@ const Sidebar = () => {
                 value={selectedCGPA}
                 onChange={(e) => setSelectedCGPA(e.target.value)}
               >
-                <option value="">Select Option</option>
-                <option value="above9">9+</option>
-                <option value="8to9">8.0-9.0</option>
-                <option value="7to8">7.0-8.0</option>
-                <option value="below7">Below 7</option>
+                                <option value="">Select Option</option>
+                                <option value="6.9">Below 7</option>
+                <option value="7.0">7.0-7.5</option>
+                <option value="7.5">7.5-8.0</option>
+                <option value="8.0">8.0-8.5</option>
+                <option value="8.5">8.5-9.0</option>
+                <option value="9.0">Above 9.0</option>
               </select>
             </div>
             <div className={`filter-option ${selectedSociety ? "filter-selected" : ""}`}>
@@ -235,14 +239,18 @@ const Sidebar = () => {
                 onChange={(e) => setSelectedSociety(e.target.value)}
               >
                 <option value="">Select Option</option>
-                <option value="Tech-society">Tech Society</option>
-                <option value="Non-Tech-society">Non Tech</option>
-                <option value="None">None</option>
+                <option value="Techical">Tech </option>
+                <option value="Non-Technical">Non-Tech </option>
+               
               </select>
             </div>
+           
           </div>
+          
         </div>
-      <button className="btn apply-btn" type="button" onClick={()=>{handleReset()}}>Reset</button>
+        <button className="btn2 reset" onClick={handleReset}>
+            Reset 
+          </button>
       </div>
     </>
   );

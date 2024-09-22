@@ -4,7 +4,7 @@ import Card from "./card";
 import "./Main.css";
 
 const Main = () => {
-  const students = useSelector((state) => state.students);
+  const students = useSelector((state) => state.display.students);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 20;
 
@@ -26,7 +26,7 @@ const Main = () => {
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    const pageRange = 2; // Number of pages to show before and after the current page
+    const pageRange = 2; 
 
     for (let i = 1; i <= totalPages; i++) {
       if (

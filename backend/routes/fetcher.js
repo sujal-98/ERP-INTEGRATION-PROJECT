@@ -97,7 +97,6 @@ Router.post('/result', async (req, res) => {
         console.error(`Could not list the directory ${dirPath}.`, err);
         return res.status(500).json({ error: 'Internal Server Error' });
       }
-
       let count = 0;
       files.forEach((file) => {
         const filePath = path.join(dirPath, file);

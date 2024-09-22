@@ -127,12 +127,37 @@ option {
   cursor: pointer;
 }
 
+.btn2 {
+  display: block;
+  width: 100%;
+  border-radius: 0px;
+  padding: 0.6rem; /* add padding for better spacing */
+  font-size: 1.5rem;
+  background-color: #378BA4;
+  color: white;
+  display: flex;
+  justify-content: center; /* center the content within the flexbox */
+  align-items: center; /* vertically center the text */
+}
+
+.btn2:hover {
+  background-color: #81BECE;
+  color: black;
+  border-bottom: 1px solid black;
+}
+
+
 .sort {
   border-bottom: 1px solid black;
 }
 
 .filter {
   border-bottom: 1px solid black;
+}
+.reset {
+  
+  text-align: center;
+  border-top: 1px solid black;
 }
 
 @media (max-width: 1151px) {

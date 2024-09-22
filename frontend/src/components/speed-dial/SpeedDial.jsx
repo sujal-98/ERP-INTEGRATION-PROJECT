@@ -12,7 +12,7 @@ const actions = [
 ];
 
 const Speed = () => {
-  const students = useSelector((state) => state.students);
+  const students = useSelector((state) => state.display.students);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [cancel, setCancel] = useState(false);

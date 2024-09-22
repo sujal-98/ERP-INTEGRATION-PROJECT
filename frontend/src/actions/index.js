@@ -1,9 +1,16 @@
 import axios from 'axios';
 
 export const SET_STUDENTS = 'SET_STUDENTS';
+export const UPD_STUDENTS = 'UPD_STUDENTS';
+
 
 export const setStudents = (students) => ({
   type: 'SET_STUDENTS',
+  payload: students,
+});
+
+export const updStudents = (students) => ({
+  type: 'UPD_STUDENTS',
   payload: students,
 });
 
@@ -23,8 +30,9 @@ export const fetchStudents = (enrollments) => async (dispatch, getState) => {
   for (const chunk of chunks) {
     const promises = chunk.map(async (roll) => {
       try {
-        const response = await axios.post('https://erp-integration-project-backend.onrender.com/api/result', {
-          enroll: String(roll),
+        // const response = await axios.post('https://erp-integration-project-backend.onrender.com/api/result', {
+          const response = await axios.post('http://localhost:1000/api/result', {
+        enroll: String(roll),
         });
         console.log('response fetched for roll:', roll);
         return response.data;
@@ -37,7 +45,7 @@ export const fetchStudents = (enrollments) => async (dispatch, getState) => {
     const results = await Promise.all(promises);
     const filteredResults = results.filter((result) => result !== null);
 
-    const currentState = getState().students;
+    const currentState = getState().student.students;
     const newState = [...currentState];
 
     filteredResults.forEach((result) => {
@@ -50,7 +58,7 @@ export const fetchStudents = (enrollments) => async (dispatch, getState) => {
         result.results.forEach((semester) => {
           semester.cgpa = randomGen(10, 6).toFixed(2);
         });
-        const overall_cgpa=randomGen(10,8).toFixed(2)
+        const overall_cgpa=randomGen(10,5).toFixed(2)
         const studentData = {
           email:'abcd@gmail.com',
           enrollment_number: studentEnrollment,
@@ -137,29 +145,30 @@ export const fetchStudents = (enrollments) => async (dispatch, getState) => {
     });
 
     console.log(newState);
+    dispatch(updStudents(newState))
     dispatch(setStudents(newState));
   }
 };
 
 export const studentSort = () => async (dispatch, getState) => {
-  const currentState = getState().students;
+  const currentState = getState().display.students;
   const sortedStudents = [...currentState].sort((a, b) => {
     const aCGPA = parseFloat(a.overall_cgpa);
     const bCGPA = parseFloat(b.overall_cgpa);
     return bCGPA - aCGPA;
   });
-  dispatch(setStudents(sortedStudents));
+  dispatch(updStudents(sortedStudents));
   console.log(sortedStudents);
 };
 
 export const enrollSort = () => async (dispatch, getState) => {
-  const currentState = getState().students;
+  const currentState = getState().display.students;
   const sortedStudents = [...currentState].sort((a, b) => {
     const roll1 = parseInt(a.enrollment_number);
     const roll2 = parseInt(b.enrollment_number);
     return roll1 - roll2;
   });
-  dispatch(setStudents(sortedStudents));
+  dispatch(updStudents(sortedStudents));
   console.log(sortedStudents);
 };
 
@@ -183,23 +192,48 @@ export const enrollSort = () => async (dispatch, getState) => {
 
 
  export const attendanceSort = () => async (dispatch, getState) => {
-  const currentState = getState().students;
+  const currentState = getState().display.students;
   const sortedStudents = [...currentState].sort((a, b) => {
     const aAvg = getLastSemesterAttendance(a.attendance);
     const bAvg = getLastSemesterAttendance(b.attendance);
     return bAvg - aAvg;
   });
-  dispatch(setStudents(sortedStudents));
+  dispatch(updStudents(sortedStudents));
   console.log(sortedStudents);
   };
 
 export const achievementSort = () => async (dispatch, getState) => {
-  const currentState = getState().students;
+  const currentState = getState().display.students;
   const sortedStudents = [...currentState].sort((a, b) => {
     const aCount = a.achievements ? a.achievements.length : 0;
     const bCount = b.achievements ? b.achievements.length : 0;
     return bCount - aCount;
   });
-  dispatch(setStudents(sortedStudents));
+  dispatch(updStudents(sortedStudents));
   console.log(sortedStudents);
 };
+
+export const filterStudents= (filter)=> async (dispatch,getState) => {
+  const { batch, branch, cgpa, society } = filter;
+  const students=getState().display.students;
+    // Define the CGPA ranges
+    const cgpaRanges = {
+      "6.9": (cgpa) => cgpa < 7,
+      "7.0": (cgpa) => cgpa >= 7 && cgpa <= 7.5,
+      "7.5": (cgpa) => cgpa > 7.5 && cgpa <= 8,
+      "8.0": (cgpa) => cgpa > 8 && cgpa <= 8.5,
+      "8.5": (cgpa) => cgpa > 8.5 && cgpa <= 9,
+      "9.0": (cgpa) => cgpa > 9
+    };
+
+    const filteredStudents = students.filter((student) => {
+      const matchesBatch = batch ? student.batch === batch : true;
+      const matchesBranch = branch ? student.branch === branch : true;
+      const matchesCGPA = cgpa ? cgpaRanges[cgpa](student.overall_cgpa) : true;
+      const matchesSociety = society ? student.societies.background===society : true;
+
+      return matchesBatch && matchesBranch && matchesCGPA && matchesSociety;
+    });
+    dispatch(updStudents(filteredStudents));
+    console.log(filteredStudents);
+}
