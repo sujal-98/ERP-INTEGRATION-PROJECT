@@ -12,27 +12,9 @@ const Header = () => {
   const [enroll, setEnroll] = useState({ enroll: [] });
   const [searchQuery, setSearchQuery] = useState('');
   const [range, setRange] = useState(false);
-
+const solo=useRef(null);
   const students = useSelector((state) => state.display.students);
   const dispatch = useDispatch();
-
-  const valid2 = (enroll) => {
-    if (enroll.enroll.length === 0) {
-      const lower = parseInt(lowerRef.current.value, 10);
-      const upper = parseInt(upperRef.current.value, 10);
-      return lower > 0 && upper > 0 && lower <= upper;
-    } else {
-      return true;
-    }
-  };
-
-  const chunkArray = (array, size) => {
-    const result = [];
-    for (let i = 0; i < array.length; i += size) {
-      result.push(array.slice(i, i + size));
-    }
-    return result;
-  };
 
   const clearSearch=()=>{
     dispatch(setStudents([]));
@@ -46,22 +28,33 @@ const Header = () => {
       setAdd(true);
     }
     setSearchQuery(event.target.value);
+    console.log(searchQuery)
   };
 
   const handleSearch = async () => {
     console.log('Enroll Array:', enroll);
-
+    const search=solo.current.value
+    console.log(search)
     try {
-      if (true) {
-          dispatch(fetchStudents(enroll.enroll));
-          setEnroll({enroll:[]})
+      if (enroll.enroll.length === 0) {  
+        if (search && search.trim() !== "") {  
+          const updatedEnroll = { ...enroll, enroll: [...enroll.enroll, search] };
+          dispatch(fetchStudents(updatedEnroll.enroll)); 
+          setEnroll({ enroll: [] });  
+        } else {
+          console.warn('Search query is empty');
         }
-
-      
+      } else {
+        dispatch(fetchStudents(enroll.enroll));  
+        setEnroll({ enroll: [] });  
+      }
     } catch (error) {
       console.error('Error posting data:', error);
     }
   };
+  
+
+
   const handleAdd = (roll) => {
     const val = parseInt(roll, 10);
     if (val > 0) {
@@ -124,11 +117,12 @@ const Header = () => {
               placeholder="Enrollment Number..."
               value={searchQuery}
               onChange={handleSearchChange}
+              ref={solo}
             />
             {add && (
               <FontAwesomeIcon
                 icon={faPlus}
-                onClick={() => handleAdd(searchQuery)}
+                onClick={() => handleAdd()}
                 className='plus-icon'
               />
             )}

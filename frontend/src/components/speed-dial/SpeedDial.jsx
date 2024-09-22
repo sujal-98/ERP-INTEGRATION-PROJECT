@@ -46,12 +46,6 @@ const Speed = () => {
     workerRef.current.postMessage({ students, cancelToken: { cancelled: cancel } });
   };
 
-  const handleCancelClick = () => {
-    setCancel(true);
-    if (workerRef.current) {
-      workerRef.current.postMessage({ cancelToken: { cancelled: true } });
-    }
-  };
 
   return (
     <Box sx={{ height: 70, transform: 'translateZ(0px)', flexGrow: 1, position: 'sticky', bottom: '60px', left: '95%', width: '5%' }}>
