@@ -30,8 +30,8 @@ export const fetchStudents = (enrollments) => async (dispatch, getState) => {
   for (const chunk of chunks) {
     const promises = chunk.map(async (roll) => {
       try {
-        const response = await axios.post('https://erp-integration-project-backend.onrender.com/api/result', {
-          // const response = await axios.post('http://localhost:1000/api/result', {
+        // const response = await axios.post('https://erp-integration-project-backend.onrender.com/api/result', {
+          const response = await axios.post('http://localhost:1000/api/result', {
         enroll: String(roll),
         });
         console.log('response fetched for roll:', roll);
@@ -62,6 +62,8 @@ export const fetchStudents = (enrollments) => async (dispatch, getState) => {
         const studentData = {
           email:'abcd@gmail.com',
           enrollment_number: studentEnrollment,
+          batch:result.results[0].batch,
+          branch:result.results[0].branch_name,
           overall_cgpa:overall_cgpa,
           semesters: result.results,
           attendance: result.attendance,
@@ -228,7 +230,7 @@ export const filterStudents= (filter)=> async (dispatch,getState) => {
 
     const filteredStudents = students.filter((student) => {
       const matchesBatch = batch ? student.batch === batch : true;
-      const matchesBranch = branch ? student.branch === branch : true;
+      const matchesBranch = branch ? (branch === "CSE" && student.branch==="BACHELOR OF TECHNOLOGY (COMPUTER SCIENCE AND ENGINEERING)" ) : true;
       const matchesCGPA = cgpa ? cgpaRanges[cgpa](student.overall_cgpa) : true;
       const matchesSociety = society ? student.societies.background===society : true;
 

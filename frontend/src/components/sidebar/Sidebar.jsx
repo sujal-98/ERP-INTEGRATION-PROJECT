@@ -192,10 +192,10 @@ const Sidebar = () => {
                 onChange={(e) => setSelectedBatch(e.target.value)}
               >
                 <option value="">Select Option</option>
-                <option value="2021-25">2021-25</option>
-                <option value="2022-26">2022-26</option>
-                <option value="2023-27">2023-27</option>
-                <option value="2024-28">2024-28</option>
+                <option value="2021">2021-25</option>
+                <option value="2022">2022-26</option>
+                <option value="2023">2023-27</option>
+                <option value="2024">2024-28</option>
               </select>
             </div>
             <div className={`filter-option ${selectedBranch ? "filter-selected" : ""}`}>
