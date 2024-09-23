@@ -37,7 +37,9 @@ const solo=useRef(null);
     console.log(search)
     try {
       if (enroll.enroll.length === 0) {  
-        if (search && search.trim() !== "") {  
+        if (search && search.trim() !== "") {
+          dispatch(setStudents([]));
+          dispatch(updStudents([]));  
           const updatedEnroll = { ...enroll, enroll: [...enroll.enroll, search] };
           dispatch(fetchStudents(updatedEnroll.enroll)); 
           setEnroll({ enroll: [] });  
@@ -45,6 +47,8 @@ const solo=useRef(null);
           console.warn('Search query is empty');
         }
       } else {
+        dispatch(setStudents([]));
+        dispatch(updStudents([]));
         dispatch(fetchStudents(enroll.enroll));  
         setEnroll({ enroll: [] });  
       }
@@ -55,7 +59,8 @@ const solo=useRef(null);
   
 
 
-  const handleAdd = (roll) => {
+  const handleAdd = () => {
+    const roll=solo.current.value;
     const val = parseInt(roll, 10);
     if (val > 0) {
       const updatedEnroll = {
@@ -78,11 +83,11 @@ const solo=useRef(null);
 
     if (lower > 0 && upper > 0 && lower <= upper) {
       dispatch(setStudents([]));
+      dispatch(updStudents([]));
       const enrollments = [];
       for (let roll = lower; roll <= upper; roll += 100000000) {
         enrollments.push(roll);
       }
-
       dispatch(fetchStudents(enrollments));
     } else {
       console.log('Enter a valid number');
