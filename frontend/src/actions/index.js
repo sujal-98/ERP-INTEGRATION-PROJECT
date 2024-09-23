@@ -217,7 +217,7 @@ export const achievementSort = () => async (dispatch, getState) => {
 
 export const filterStudents= (filter)=> async (dispatch,getState) => {
   const { batch, branch, cgpa, society } = filter;
-  const students=getState().display.students;
+  const students=getState().student.students;
     // Define the CGPA ranges
     const cgpaRanges = {
       "6.9": (cgpa) => cgpa < 7,
