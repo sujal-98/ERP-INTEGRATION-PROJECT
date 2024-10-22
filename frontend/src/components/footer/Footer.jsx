@@ -14,10 +14,9 @@ function Footer() {
           <div className="text-lg font-bold mb-2">
             Bhagwan Parshuram Institute Of Technology, New Delhi
           </div>
-          <div className="font-semibold text-[#A6A9F4] mb-2">Contact Us</div>
           <div className="mb-2">
-            <div>Alumni Coordinator: [Coordinator Name]</div>
-            <div>Email: alumni@collegename.edu</div>
+            <div>ERP Coordinator: [Coordinator Name]</div>
+            <div>Email: erp@collegename.edu</div>
             <div>Phone: (123) 456-7890</div>
           </div>
           <div className="text-sm">

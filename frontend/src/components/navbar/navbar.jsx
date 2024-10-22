@@ -51,11 +51,21 @@ const Navbar = () => {
           <li>
             <NavLink
               exact
-              to="/"
+              to="/home"
               className="nav-link px-3 flex text-sm shrink md:text-base"
               activeClassName="active"
             >
               Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              exact
+              to="/"
+              className="nav-link px-3 flex text-sm shrink md:text-base"
+              activeClassName="active"
+            >
+              SRGS
             </NavLink>
           </li>
           <li>
